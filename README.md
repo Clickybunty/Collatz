@@ -54,3 +54,63 @@ Falls du die PDF selbst kompilieren möchtest, kannst du folgende Befehle nutzen
 ```sh
 pdflatex 27JanuarCollatzSchrankeEn.TeX
 pdflatex 27JanuarCollatzSchrankeDe.TeX
+
+
+###
+
+# 📘 The Collatz Bound – Analysis of Central Dynamics and Convergence
+*A mathematical paper on the Collatz Conjecture by Shimon Ben Abraham (alias Stevan Menicanin)*  
+
+[🔗 Deutsche Version unten](#-die-collatz-schranke--untersuchung-der-zentralen-dynamik-und-konvergenz)
+
+## 📜 Abstract  
+The **Collatz Conjecture** (also known as the (3n+1) problem) is one of the most fascinating unsolved problems in mathematics.  
+This paper examines the central mechanisms of the **Collatz transformation** and develops a general bound explaining universal convergence.
+
+Mathematical conclusions:
+- Every natural number \( n \) is reduced after a finite number of steps.
+- No new stable cycles exist outside {4,2,1}.
+- The asymmetry in the transformation plays a key role in number sequences.
+
+---
+
+## 📂 Table of Contents
+- [📜 Abstract](#-abstract)
+- [📥 Download PDFs](#-download-pdfs)
+- [⚙️ Usage and LaTeX Compatibility](#️-usage-and-latex-compatibility)
+- [🛠️ LaTeX Compilation](#️-latex-compilation)
+- [🔏 License & Copyright](#-license--copyright)
+
+---
+
+## 📥 **Download PDFs**  
+Download the full paper as a PDF:
+
+📄 **English Version**  
+➡️ [Download (Collatz_Schranke_EN.pdf)](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeEn.pdf)  
+
+📄 **German Version**  
+➡️ [Download (Collatz_Schranke_DE.pdf)](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeDe.pdf)  
+
+---
+
+## ⚙️ **Usage and LaTeX Compatibility**  
+If you wish to edit or analyze this work, you can access the **LaTeX source code**.
+
+📜 **English LaTeX Source**:  
+➡️ [27JanuarCollatzSchrankeEn.TeX](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeEn.TeX)  
+
+📜 **German LaTeX Source**:  
+➡️ [27JanuarCollatzSchrankeDe.TeX](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeDe.TeX)  
+
+**Required Packages:**  
+- `amsmath`, `amssymb`, `hyperref`, `geometry`  
+
+---
+
+## 🛠️ **LaTeX Compilation**  
+To compile the PDFs yourself, use:
+
+```sh
+pdflatex 27JanuarCollatzSchrankeEn.TeX
+pdflatex 27JanuarCollatzSchrankeDe.TeX
