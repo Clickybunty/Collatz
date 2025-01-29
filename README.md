@@ -66,6 +66,15 @@ pdflatex 27JanuarCollatzSchrankeDe.TeX
 
 ---
 
+## 🔏 Lizenz & Urheberrecht
+
+Dieses Werk ist unter der **Creative Commons Attribution 4.0 International (CC BY 4.0)** lizenziert.  
+Das bedeutet, dass du es frei teilen und darauf aufbauen kannst, solange du mich als Autor nennst.
+
+📜 [Lizenz anzeigen](https://creativecommons.org/licenses/by/4.0/)
+
+---
+
 # 📘 The Collatz Bound – Analysis of Central Dynamics and Convergence
 
 _A mathematical paper on the Collatz Conjecture by Stevan Menicanin_
@@ -123,13 +132,11 @@ If you wish to edit or analyze this work, you can access the **LaTeX source code
 
 ---
 
-## 🛠️ **LaTeX Compilation**
+## 🔏 License & Copyright
 
-To compile the PDFs yourself, use:
+This work is licensed under the **Creative Commons Attribution 4.0 International (CC BY 4.0)**.  
+This means you are free to share and build upon this work, as long as you credit me as the author.
 
-```sh
-pdflatex 27JanuarCollatzSchrankeEn.TeX
-pdflatex 27JanuarCollatzSchrankeDe.TeX
-```
+📜 [View License](https://creativecommons.org/licenses/by/4.0/)
 
 ---
