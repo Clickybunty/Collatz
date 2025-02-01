@@ -140,3 +140,34 @@ This means you are free to share and build upon this work, as long as you credit
 📜 [View License](https://creativecommons.org/licenses/by/4.0/)
 
 ---
+
+
+## 💬 Diskussionen | Discussions
+
+Wir nutzen [GitHub Discussions](https://github.com/Clickybunty/Collatz/discussions) als zentrale Plattform für den Austausch über die **Collatz-Vermutung**.  
+We use [GitHub Discussions](https://github.com/Clickybunty/Collatz/discussions) as a central hub for sharing ideas about the **Collatz Conjecture**.
+
+### **📌 Worüber kann hier diskutiert werden? | What can we discuss here?**
+✅ **Fragen zur Collatz-Vermutung** | Questions about Collatz  
+✅ **Theorien und mathematische Analysen** | Theories and mathematical analysis  
+✅ **Vorschläge zur Verbesserung unserer Arbeit** | Suggestions to improve our research  
+✅ **Alles rund um Zahlen, Asymmetrie und die Schranke** | Everything related to numbers, asymmetry, and boundaries  
+
+### **💡 Wie kannst du mitmachen? | How to participate?**
+1️⃣ **Stell deine Fragen oder teile deine Gedanken.**  
+➝ Ask questions and share your thoughts.  
+
+2️⃣ **Antworte auf andere Diskussionen.**  
+➝ Reply to ongoing discussions.  
+
+3️⃣ **Respektiere andere Meinungen – wir sind eine lernende Community.**  
+➝ Be respectful and open-minded – this is a learning community.  
+
+📄 **Unsere Arbeit auf GitHub:**  
+🔗 [Collatz Conjecture Paper](https://clickybunty.github.io/Collatz/)  
+
+📄 **PDF-Downloads | Download the paper as PDF:**  
+🔗 **EN:** [Download](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeEn.pdf)  
+🔗 **DE:** [Download](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeDe.pdf)  
+
+💬 **Lass uns tiefer in die Mathematik eintauchen! | Let’s dive deeper into mathematics together!** 🚀
