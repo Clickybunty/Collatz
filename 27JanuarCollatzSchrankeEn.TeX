@@ -5,6 +5,13 @@
 \usepackage[utf8]{inputenc}
 \usepackage[ngerman]{babel}
 \usepackage{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % Remove header content
+\renewcommand{\headrulewidth}{0pt} % Remove the top line
+\fancyfoot[C]{Version 1.1 – Correction: Logarithmic instead of exponential reduction}
+\fancyfoot[R]{\thepage} % Page number on the right
+
 \geometry{a4paper, margin=1in}
 
 \title{Collatz Conjecture – Explanation of the Central Dynamics and Convergence}
@@ -20,7 +27,8 @@
 \begin{abstract}
     The Collatz Conjecture, also known as the (3n+1) problem, is one of the most fascinating unsolved problems in mathematics. This paper examines the central mechanics of the Collatz transformation and demonstrates how the \(+1\) operator, the logarithmic bound, and the structure of the transformation are utilized to explain universal convergence.
 
-    A general bound is developed that guarantees every natural number \( n \) is reduced after a finite number of steps. Furthermore, a precise congruence analysis proves that no new stable cycles exist outside the known cycle \( \{4, 2, 1\} \). The \(+1\) operator plays a key role in creating asymmetry and enabling exponential reductions.
+    A general bound is developed that guarantees every natural number \( n \) is reduced after a finite number of steps. Furthermore, a precise congruence analysis proves that no new stable cycles exist outside the known cycle \( \{4, 2, 1\} \). The \(+1\) operator plays a key role in creating asymmetry and enabling a logarithmic reduction.
+
 
     The presented results provide strong evidence supporting the validity of the Collatz Conjecture and reveal the underlying mathematical order. This paper is intended as a contribution to the mathematical discussion and requires independent verification by the scientific community.
 \end{abstract}
@@ -57,7 +65,7 @@ The transformation \( T(n) \) is based on two fundamental cases:
     \item For odd numbers \( n \), \( T(n) = 3n + 1 \), followed by repeated divisions by 2.
 \end{enumerate}
 
-The deterministic nature of the transformation ensures that every starting number \( n \) generates a uniquely defined sequence. The seemingly chaotic behavior arises from alternating phases of growth and exponential reduction, structured by the \(+1\) operator.
+The deterministic nature of the transformation ensures that every starting number \( n \) generates a uniquely defined sequence. The seemingly chaotic behavior arises from alternating phases of growth and logarithmic reduction, structured by the \(+1\) operator.
 
 \section{The \(+1\) Operator and Asymmetry}
 The \(+1\) operator is critical to the dynamics of the Collatz Conjecture:
@@ -76,7 +84,7 @@ The result is always an even number because:
 3n \mod 2 = 1 \quad \text{and therefore} \quad (3n + 1) \mod 2 = 0.
 \]
 
-The asymmetry arises because the \(+1\) operator prevents odd numbers from being directly transformed back into other odd numbers. This enables exponential reduction through repeated divisions.
+The asymmetry arises because the \(+1\) operator prevents odd numbers from being directly transformed back into other odd numbers. This enables logarithmic reduction through repeated divisions.
 
 \subsection{Long-Term Influence of the \(+1\) Operator}
 Although the relative influence of the \(+1\) operator diminishes for large numbers:
@@ -95,7 +103,13 @@ The logarithmic bound states that for every number \( n \in \mathbb{N} \), there
 \[
 T_k(n) = \frac{3n + 1}{2^k} < n.
 \]
-This guarantees that every number is reduced after a finite number of steps. 
+This bound shows that the number of steps required for complete reduction grows asymptotically logarithmically:
+\[
+O(\log_2 n).
+\]
+This means that larger numbers require more steps, but the growth in the number of steps increases only slowly.  
+This guarantees that every number is reduced after a finite number of steps, following a logarithmic rather than an exponential pattern.
+
 
 \subsection{Proof of the Bound}
 For odd numbers, the following holds:
@@ -134,7 +148,7 @@ This demonstrates that the probability of long-term reduction approaches 1, effe
 To support the theoretical argument, numerical simulations were conducted. Some well-known starting values illustrate the practical effectiveness of the logarithmic bound:
 
 \begin{itemize}
-    \item For \( n = 27 \): The transformation reaches the cycle \( \{4, 2, 1\} \) after 111 steps. It becomes evident that growth phases (e.g., \( T(27) = 82 \), \( T(82) = 41 \)) are offset by exponential reductions.
+    \item For \( n = 27 \): The transformation reaches the cycle \( \{4, 2, 1\} \) after 111 steps. It becomes evident that growth phases (e.g., \( T(27) = 82 \), \( T(82) = 41 \)) are offset by logarithmic reductions.
     \item For \( n = 7 \): After 16 steps, \( T(n) \) reaches the cycle \( \{4, 2, 1\} \). This illustrates the asymmetry and the role of the \(+1\) operator in the transformation.
 \end{itemize}
 
@@ -203,7 +217,7 @@ T_k(n) < n.
 \]
 
 \subsection{Conclusion on the Sufficient Number of Steps}
-The logarithmic bound and the extended induction argument demonstrate that \( k \) can never be too small to ensure \( T_k(n) < n \). The key is the exponential reduction by \( 2^k \), which guarantees that \( T_k(n) \) becomes smaller than \( n \) after a finite number of steps for every natural number \( n \).
+The logarithmic bound and the extended induction argument demonstrate that \( k \) can never be too small to ensure \( T_k(n) < n \). The key is the logarithmic reduction by \( 2^k \), which guarantees that \( T_k(n) \) becomes smaller than \( n \) after a finite number of steps for every natural number \( n \).
 
 \section{Inductive Proof of the Logarithmic Bound}
 We prove that for all \( n \in \mathbb{N} \):
@@ -293,7 +307,7 @@ For large values of \( n \), the influence of the \(+1\) operator becomes neglig
 \[
 \lim_{n \to \infty} \frac{+1}{3n} = 0.
 \]
-Nevertheless, its role remains indispensable, as it ensures the transition to exponential reduction through divisions by \( 2^k \). Without the \(+1\) operator, growth under \( 3n \) could become uncontrolled.
+Nevertheless, its role remains indispensable, as it ensures the transition to logarithmic reduction through divisions by \( 2^k \). Without the \(+1\) operator, growth under \( 3n \) could become uncontrolled.
 
 \subsection{Prevention of Infinite Growth}
 Without the \(+1\) operator, \( T(n) = 3n \) for odd \( n \) could theoretically grow indefinitely. However, the \(+1\) operator ensures that every odd number is transformed into an even number, which is then exponentially reduced:
@@ -313,7 +327,7 @@ However, congruence analysis shows that:
 \[
 3n + 1 \equiv n \pmod{2^m}
 \]
-is only possible for \( n \in \{4, 2, 1\} \). For all other numbers, the transformation leads to exponential reduction.
+is only possible for \( n \in \{4, 2, 1\} \). For all other numbers, the transformation leads to logarithmic reduction.
 
 The shift introduced by the \(+1\) operator alters the residue class structure modulo \( 2^k \) and prevents a hypothetical transformation \( T^x(n) = n \) from returning exactly to the original state. This distortion makes it mathematically impossible for new stable cycles to emerge.
 
@@ -355,7 +369,7 @@ n \equiv r \pmod{2^k}, \quad \text{where } r \in \{0, 1, 2, \dots, 2^k - 1\}.
    Since no residue classes \( r \) modulo \( 2^k \) satisfy \( 3r + 1 \equiv r \pmod{2^k} \), no new cycle can arise. Every number is either exponentially reduced or eventually leads to the known cycle \( \{4, 2, 1\} \).
 
 \subsection{Prevention of Hypothetical Symmetry}
-Even if a hypothetical cycle were to arise through repeated growth, the transformation remains stable due to asymmetry and exponential reduction. The shift caused by the \(+1\) operator prevents a return to symmetry. Mathematically:
+Even if a hypothetical cycle were to arise through repeated growth, the transformation remains stable due to asymmetry and logarithmic reduction. The shift caused by the \(+1\) operator prevents a return to symmetry. Mathematically:
 \[
 \sum_{i=1}^x \frac{+1}{3n_i} \neq 0, \quad \text{for any hypothetical iteration } x.
 \]
@@ -378,9 +392,9 @@ This proves that, regardless of the initial number \( n \), there is no possibil
 The Collatz Conjecture, one of the most fascinating unsolved problems in mathematics, has been examined in this paper through a systematic analysis of the transformation \( T(n) \). The key results and insights can be summarized as follows:
 
 \begin{itemize}
-    \item \textbf{Logarithmic Bound:} For every number \( n \in \mathbb{N} \), there exists a \( k \in \mathbb{N} \) such that \( T_k(n) < n \). This bound ensures that every positive integer is reduced after a finite number of steps. It demonstrates how the growth of the \( 3n+1 \) operator is controlled and overcompensated by exponential reduction.
+    \item \textbf{Logarithmic Bound:} For every number \( n \in \mathbb{N} \), there exists a \( k \in \mathbb{N} \) such that \( T_k(n) < n \). This bound ensures that every positive integer is reduced after a finite number of steps. It demonstrates how the growth of the \( 3n+1 \) operator is controlled and overcompensated by logarithmic reduction.
     \item \textbf{Exclusion of New Cycles:} A precise congruence analysis has shown that no stable cycles can exist beyond the known cycle \( \{4, 2, 1\} \). This demonstrates that the dynamics of the transformation are fundamentally designed to reduce any growth to a universal cycle.
-    \item \textbf{The Role of the \(+1\) Operator:} The \(+1\) operator is central to the structure and dynamics of the transformation. It ensures the asymmetry necessary to transform every odd number into an even number, enabling exponential reductions. Without the \(+1\) operator, the transformation would lead to uncontrolled growth.
+    \item \textbf{The Role of the \(+1\) Operator:} The \(+1\) operator is central to the structure and dynamics of the transformation. It ensures the asymmetry necessary to transform every odd number into an even number, enabling logarithmic reductions. Without the \(+1\) operator, the transformation would lead to uncontrolled growth.
     \item \textbf{Predictable Dynamics:} Despite the initially chaotic appearance, the Collatz transformation follows clearly defined mathematical rules. The cyclic congruences and bounds allow the progression of every number \( n \in \mathbb{N} \) to be analyzed and predicted until it inevitably enters the cycle \( \{4, 2, 1\} \).
 \end{itemize}
 
@@ -392,6 +406,13 @@ This paper not only sheds light on the central dynamics of the Collatz Conjectur
 The methods presented could serve as a foundation for studying similar mathematical transformations characterized by seemingly chaotic behavior. Furthermore, it remains an exciting challenge to conduct numerical simulations over even larger ranges of numbers and to further confirm the universal applicability of the results.
 
 The connection between simple arithmetic and complex mathematical order shows that even seemingly trivial problems can provide deeper insights into the structure of mathematics. The Collatz Conjecture continues to be an inspiring invitation for further research.
+
+\section*{Correction Note}
+
+After further numerical analysis, it has become clear that the initial claim of an exponential reduction requires refinement. The number of reduction steps grows on average with \( O(\log_2 n) \), which describes a logarithmic decrease instead of an exponential one. 
+
+This correction represents a clarification of the original formulation and does not affect the mathematical validity of the work.
+
 
 \vspace{1cm}
 \begin{flushright}
