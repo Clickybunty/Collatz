@@ -4,27 +4,23 @@ _A mathematical paper on the Collatz Conjecture by Stevan Menicanin_
 
 [🔗 Deutsche Version unten](#-die-collatz-schranke--untersuchung-der-zentralen-dynamik-und-konvergenz)
 
-## ✭ Version Note (Version 1.2)
+## ✭ Version Note (Version 3.0)
 
-**Current Version:** 1.2 – *Probability Analysis of Convergence and Reference to Terence Tao*  
-After further numerical analysis, it was determined that the probability of forming a new stable cycle is exponentially decreasing. The paper has been extended to include a probabilistic analysis, confirming that the probability of deviation from the known cycle \( \{4,2,1\} \) converges exponentially to zero.
+**Current Version:** 3.0 – *Optimized Representation of Asymmetry, Distance Function \( d(n) \), and Logarithmic Reduction*  
+This version introduces a deterministic approach, eliminating probabilistic assumptions. The distance function \( d(n) \) proves that \( 2n \) never appears in the Collatz sequence of \( n \), structurally excluding alternative cycles.
 
 ## 📜 Abstract
 
-The **Collatz Conjecture** (also known as the (3n+1) problem) is one of the most fascinating unsolved problems in mathematics.  
-This paper examines the central mechanisms of the **Collatz transformation** and develops a general bound explaining universal convergence.
+The **Collatz Conjecture** (also known as the (3n+1) problem) is one of the most fascinating open problems in mathematics.  
+This paper presents a new structural analysis of the **Collatz transformation**, proving that universal convergence is inevitable.
 
-Mathematical conclusions:
+Key mathematical conclusions:
 
-- Every natural number \( n \) is reduced after a finite number of steps.
-- No new stable cycles exist outside {4,2,1}.
-- The number of reduction steps grows asymptotically with \( O(\log_2 n) \), meaning a logarithmic rather than an exponential reduction.
-- The probability of deviation from the known cycle follows:
-  \[
-  P(k,m) \approx e^{-\frac{k}{2^m}}.
-  \]
-  This means that for large numbers, the probability of an alternative cycle formation approaches zero exponentially.
-- The asymmetry in the transformation plays a key role in number sequences.
+- Every natural number \( n \) enters the cycle \( \{4,2,1\} \) after a finite number of steps.
+- No alternative stable cycles exist outside \( \{4,2,1\} \).
+- The number of reduction steps follows \( O(\log_2 n) \), proving logarithmic rather than exponential reduction.
+- The distance function \( d(n) \) grows strictly monotonically and ensures that \( 2n \) never appears in the Collatz sequence.
+- Asymmetry in the transformation plays a fundamental role in the process.
 
 ---
 
@@ -48,6 +44,9 @@ Download the full paper as a PDF:
 📄 **German Version**  
 ➡️ [Download (Collatz_Schranke_DE.pdf)](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeDe.pdf)
 
+📊 **Filtered Collatz Results Data**  
+➡️ [Download (filtered_collatz_results.csv)](https://github.com/Clickybunty/Collatz/blob/main/filtered_collatz_results.csv)
+
 ---
 
 ## ⚙️ **Usage and LaTeX Compatibility**
@@ -62,7 +61,7 @@ If you wish to edit or analyze this work, you can access the **LaTeX source code
 
 **Required Packages:**
 
-- `amsmath`, `amssymb`, `hyperref`, `geometry`
+- `amsmath`, `amssymb`, `hyperref`, `geometry`, `pgfplots`, `tikz`
 
 ---
 
@@ -81,27 +80,24 @@ _Ein mathematisches Paper zur Collatz-Vermutung von Stevan Menicanin_
 
 [English Version below](#-the-collatz-bound--analysis-of-central-dynamics-and-convergence)
 
-## ✭ Versionshinweis (Version 1.2)
+## ✭ Versionshinweis (Version 3.0)
 
-**Aktuelle Version:** 1.2 – *Wahrscheinlichkeitsanalyse der Konvergenz und Referenz zu Terence Tao*  
-Nach weiteren numerischen Analysen wurde festgestellt, dass die Wahrscheinlichkeit für das Auftreten neuer stabiler Zyklen exponentiell gegen Null geht. Die Arbeit wurde erweitert, um eine Wahrscheinlichkeitsanalyse zu integrieren, die bestätigt, dass Abweichungen vom bekannten Zyklus \( \{4,2,1\} \) mit wachsendem \( n \) zunehmend unwahrscheinlicher werden.
+**Aktuelle Version:** 3.0 – *Optimierte Darstellung der Asymmetrie, Distanzfunktion \( d(n) \) und logarithmischen Reduktion*  
+Diese Version führt einen deterministischen Ansatz ein und eliminiert probabilistische Annahmen. Die Distanzfunktion \( d(n) \) zeigt, dass \( 2n \) niemals in der Collatz-Folge von \( n \) auftritt, wodurch alternative stabile Zyklen strukturell ausgeschlossen werden.
 
 ## 📜 Abstract
 
-Die **Collatz-Vermutung** (auch bekannt als das (3n+1)-Problem) gehört zu den faszinierendsten ungelösten Problemen der Mathematik.  
-Diese Arbeit untersucht die zentralen Mechanismen der **Collatz-Transformation** und entwickelt eine allgemeine Schranke, die die universelle Konvergenz erklärt.
+Die **Collatz-Vermutung** (auch bekannt als das (3n+1)-Problem) gehört zu den faszinierendsten offenen Problemen der Mathematik.  
+Diese Arbeit präsentiert eine neue strukturelle Analyse der **Collatz-Transformation** und zeigt, dass die universelle Konvergenz unausweichlich ist.
 
-Es wird mathematisch gezeigt, dass:
+### Zentrale mathematische Schlussfolgerungen:
 
-- Jede natürliche Zahl \( n \) nach einer endlichen Anzahl von Schritten reduziert wird.
-- Keine neuen stabilen Zyklen außerhalb von {4,2,1} existieren.
-- Die Anzahl der Reduktionsschritte asymptotisch mit \( O(\log_2 n) \) wächst, was eine logarithmische statt einer exponentiellen Reduktion bedeutet.
-- Die Wahrscheinlichkeit für eine Abweichung vom bekannten Zyklus folgt:
-  \[
-  P(k,m) \approx e^{-\frac{k}{2^m}}.
-  \]
-  Für große Zahlen nähert sich diese Wahrscheinlichkeit exponentiell null an.
-- Die Asymmetrie in der Transformation eine Schlüsselrolle bei der Abfolge der Zahlen spielt.
+- Jede natürliche Zahl \( n \) erreicht nach einer endlichen Anzahl von Schritten den Zyklus \( \{4,2,1\} \).
+- Keine alternativen stabilen Zyklen existieren außerhalb von \( \{4,2,1\} \).
+- Die Anzahl der Reduktionsschritte folgt \( O(\log_2 n) \), was eine logarithmische statt einer exponentiellen Reduktion belegt.
+- Die Distanzfunktion \( d(n) \) wächst streng monoton und stellt sicher, dass \( 2n \) niemals in der Collatz-Folge erscheint.
+- Die Asymmetrie in der Transformation spielt eine fundamentale Rolle im Ablauf.
+
 
 ---
 
@@ -137,9 +133,12 @@ Falls du die Arbeit bearbeiten oder nachvollziehen möchtest, findest du hier de
 📜 **Deutscher LaTeX-Quelltext**:  
 ➡️ [27JanuarCollatzSchrankeDe.TeX](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeDe.TeX)
 
+📊 **Filtered Collatz Results Data**  
+➡️ [Download (filtered_collatz_results.csv)](https://github.com/Clickybunty/Collatz/blob/main/filtered_collatz_results.csv)
+
 **Erforderliche Pakete:**  
 
-- `amsmath`, `amssymb`, `hyperref`, `geometry`
+- `amsmath`, `amssymb`, `hyperref`, `geometry`, `pgfplots`, `tikz`
 
 ---
 

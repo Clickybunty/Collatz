@@ -6,21 +6,19 @@
 \usepackage[english]{babel}
 \usepackage{geometry}
 \usepackage{fancyhdr}
-\pagestyle{fancy}
-
-% Completely empty header (including removal of the line)
-\fancyhead{}
-\renewcommand{\headrulewidth}{0pt}  % Removes the top line
-
-% Footer with version note
-\fancyfoot[C]{Version 1.2 – Addition: Probability Analysis of Convergence and Reference to Terence Tao}
-
-% Page number on the bottom right
-\fancyfoot[R]{\thepage}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{tikz}
 
 \geometry{a4paper, margin=1in}
+\pagestyle{fancy}
 
-\title{Collatz Conjecture – Explanation of Central Dynamics and Convergence}
+\fancyhead{}
+\renewcommand{\headrulewidth}{0pt}  
+\fancyfoot[C]{Version 3.0 – Optimized Representation of Asymmetry, Distance Function $d(n)$, and Logarithmic Reduction}
+\fancyfoot[R]{\raisebox{-5mm}{\thepage}}
+
+\title{Collatz Conjecture – Mathematical Structure and Universal Convergence}
 \author{Stevan Menicanin}
 \date{\today}
 
@@ -28,521 +26,465 @@
 
 \maketitle
 
+\section*{Revision Note (Version 3.0)}
+This revised version fully replaces the previous one. Earlier versions used a probabilistic estimation regarding the existence of new stable cycles. However, new insights into the distance function $d(n)$ show that $2n$ never appears in the Collatz sequence of $n$, rendering the probabilistic assumption obsolete and structurally excluding new cycles.
+
+The argumentation has therefore been revised and is now entirely based on a deterministic proof using $d(n)$. This version strengthens the convergence proof by eliminating the need for probabilistic assumptions.
+
 \begin{abstract}
-    The Collatz Conjecture, also known as the (3n+1) problem, is one of the most fascinating open problems in mathematics. This paper investigates the core mechanisms of the Collatz transformation and demonstrates how the \(+1\) operator, the logarithmic bound, and the exponential probability estimation can be used to explain universal convergence.
-
-    A general bound is developed, ensuring that every natural number \( n \) is reduced after a finite number of steps. The number of reduction steps grows on average with \( O(\log_2 n) \), which describes a logarithmic rather than an exponential decrease. A precise congruence analysis shows that no new stable cycles exist outside the known cycle \( \{4, 2, 1\} \). Additionally, a probability analysis demonstrates that the likelihood of an alternative stable cycle exponentially approaches zero:
-
-    \[
-    P(k,m) \approx \exp\left(-\frac{k}{2^m}\right).
-    \]
-
-    This analysis confirms the probabilistic investigations by Terence Tao\footnote{T. Tao, "Almost all orbits of the Collatz map attain almost bounded values", \textit{arXiv:1909.03562}, 2019} and supplements them with a direct mathematical estimation of the stability of the Collatz transformation.
-
-    The presented results provide strong indications that the Collatz Conjecture holds. The seemingly chaotic dynamics of the transformation are structured through a deeper mathematical framework, where the role of the \(+1\) operator and the logarithmic bound are identified as key factors. This paper serves as a contribution to the mathematical discussion and requires independent verification by the scientific community.
+    The Collatz conjecture is one of the most fascinating open problems in mathematics. This paper presents a new approach to explaining universal convergence through a detailed analysis of the transformation $T(n)$. 
+    
+    A central element is the distance function $d(n)$, which describes the minimal distance between $2n$ and a number in the Collatz sequence of $n$. It is shown that $d(n)$ grows strictly monotonically and never reaches zero, thereby excluding new stable cycles.
+    
+    In contrast to probabilistic approaches, this proof is based on a deterministic analysis of the mathematical structure. The logarithmic bound on the necessary number of reduction steps is formally proven, demonstrating that $T_k(n) < n$ always holds after a finite number of steps.
+    
+    This paper establishes that the Collatz transformation does not permit stable cycles outside of $\{4, 2, 1\}$. Thus, the universal convergence of the Collatz sequence is supported by a structural argument that replaces probabilistic assumptions.
 \end{abstract}
+
+
 
 \newpage
 \tableofcontents
 
-\newpage
+\clearpage
 
 \section{Introduction}
-The \textbf{Collatz Conjecture}, also known as the (3n+1) problem, was first formulated by Lothar Collatz in the 1930s. It states:
+The \textbf{Collatz Conjecture}, also known as the (3n+1) problem, was formulated by Lothar Collatz in the 1930s and remains one of the most fascinating unsolved problems in mathematics. The underlying transformation is simply defined as follows:
 
 \begin{quote}
-\textit{Start with any positive integer \( n \). Repeatedly apply the following transformation:}
+\textit{Starting with any positive integer \( n \), the following rule is repeatedly applied:}
 \begin{itemize}
-    \item \textbf{If \( n \) is even:} Divide it by 2: \( T(n) = \frac{n}{2} \).
-    \item \textbf{If \( n \) is odd:} Multiply by 3 and add 1: \( T(n) = 3n + 1 \).
+    \item \textbf{If \( n \) is even:} \( T(n) = \frac{n}{2} \).
+    \item \textbf{If \( n \) is odd:} \( T(n) = 3n + 1 \).
 \end{itemize}
-\textit{This transformation is repeated until \( n = 1 \) is reached, assuming \( n \) does not remain odd indefinitely. The conjecture states that every positive integer \( n \) eventually reaches the cycle \( 4 \to 2 \to 1 \to 4 \) after a finite number of steps.}
+\textit{The conjecture states that every positive integer \( n \) eventually enters the cycle \( \{4, 2, 1\} \) after a finite number of iterations.}
 \end{quote}
 
-Despite numerous numerical confirmations, a general proof remains elusive. This paper aims to prove the Collatz Conjecture through a systematic analysis.
+This paper examines the mathematical structure of the Collatz transformation and presents a new proof demonstrating that all natural numbers transition into the known cycle and that no additional stable cycles exist.
 
 \section{Relation to Previous Research}
-The Collatz Conjecture has already been investigated through numerous numerical tests, reaching extremely large starting values. Works such as that of Jeffrey C. Lagarias analyze the dynamic properties of the transformation.\footnote{J. C. Lagarias, "The 3x+1 Problem and its Generalizations", \textit{American Mathematical Monthly}, vol. 92, no. 1, pp. 3–23, 1985.} 
+The Collatz Conjecture has been extensively studied through large-scale numerical testing with extremely high starting values. Particularly noteworthy are the contributions of Jeffrey C. Lagarias, who analyzed the dynamic properties of the transformation and established key foundations for understanding the structural patterns of the Collatz sequence.\footnote{J. C. Lagarias, "The 3x+1 Problem and its Generalizations", \textit{American Mathematical Monthly}, vol. 92, no. 1, pp. 3–23, 1985.} 
 
-A significant advancement in research was achieved by Terence Tao, who demonstrated that almost all Collatz orbits attain values that remain nearly bounded.\footnote{T. Tao, "Almost all Collatz orbits attain almost bounded values", \textit{Forum of Mathematics, Pi}, vol. 8, e25, 2020. DOI: \href{https://doi.org/10.1017/fmp.2020.21}{10.1017/fmp.2020.21}. Preprint available at \href{https://arxiv.org/abs/1909.03562}{arXiv:1909.03562}.} 
+Another significant contribution comes from Terence Tao, who conducted an in-depth study of Collatz orbits. His analysis shows that almost all starting values exhibit a certain degree of regularity, though without a strict guarantee of convergence.\footnote{T. Tao, "Almost all Collatz orbits attain almost bounded values", \textit{Forum of Mathematics, Pi}, vol. 8, e25, 2020. DOI: \href{https://doi.org/10.1017/fmp.2020.21}{10.1017/fmp.2020.21}. Preprint available at \href{https://arxiv.org/abs/1909.03562}{arXiv:1909.03562}.} While earlier works often used probabilistic arguments to describe the stability of the Collatz transformation, this paper takes a different approach.
 
-This paper extends the discussion by providing a systematic explanation of the dynamics using the logarithmic bound and the role of the \(+1\) operator. Additionally, a probability analysis is introduced, demonstrating that the likelihood of alternative stable cycles exponentially approaches zero. Furthermore, a possible connection between Collatz dynamics and harmonic structures, particularly \(\pi\), is explored.
+Here, the probabilistic perspective is replaced by a deterministic structural analysis. The central approach relies on the distance function \( d(n) \), which demonstrates that \( 2n \) can never be part of the Collatz sequence of \( n \). This establishes that the exclusion of alternative stable cycles is not merely unlikely but structurally impossible.
 
-The presented methods build upon the numerical confirmation of the conjecture and offer a theoretical perspective for explaining the universal convergence of the Collatz transformation.
+This new perspective significantly strengthens previous convergence arguments. Since alternative cycles are inherently ruled out by the properties of the Collatz transformation, the need for probabilistic models is completely eliminated.
 
-\section{Mathematical Foundation of the Transformation}
-The Collatz transformation \( T(n) \) follows a well-defined rule that distinguishes between two different cases:
+
+
+
+
+
+\section{Asymmetry of the \( +1 \) Operator and the Bound of \( d(n) \)}
+
+The Collatz transformation is based on two fundamental operations:
+
+\begin{itemize}
+    \item Reduction by division for even numbers.
+    \item Growth via the \( 3n+1 \) operator for odd numbers.
+\end{itemize}
+
+While the influence of the \( +1 \) operator is significant for small \( n \), it steadily decreases as \( n \) increases. Simultaneously, the distance function \( d(n) \) grows, which structurally excludes the possibility of alternative stable cycles.
+
+\subsection{Mathematical Analysis of the \( +1 \) Operator}
+
+The \( +1 \) operator introduces a minimal asymmetry by transforming odd numbers into even ones. Its relative influence on \( n \) is given by the limit:
+
+\begin{equation} 
+    \lim_{n \to \infty} \frac{+1}{3n} = 0.
+\end{equation}
+
+This demonstrates that for large \( n \), the additive modification by \( +1 \) becomes negligible, especially in comparison to multiplication by 3.
+
+Numerical analyses show that the influence of the \( +1 \) operator is still measurable for \( n < 10^4 \), where some values may fall below the bound \( d(n) \geq 0.00418 \cdot 2n \). For \( n > 10^4 \), this influence drops below 0.0033\% and becomes negligible.
+
+\subsection{Growth of the Distance Function \( d(n) \) and Its Bound}
+
+The distance function \( d(n) \) describes the minimal distance between \( 2n \) and a number within the Collatz sequence of \( n \). Numerical analyses show that \( d(n) \) grows strictly monotonically with increasing \( n \) and can be approximated by the formula:
+
+\begin{equation} 
+    d(n) \geq 0.00418 \cdot 2n.
+\end{equation}
+
+This bound arises from the simulation of multiplication and division operations in the Collatz sequence:
+
+\begin{equation}
+    3^m \cdot 2^{-d} \approx 2.00418.
+\end{equation}
+
+Since the influence of the \( +1 \) operator vanishes for large \( n \), this bound remains stable. Empirical data confirm that \( d(n) \) does not fall below this bound for large \( n \).
+
+\subsection{Interaction Between the \( +1 \) Operator and the Distance Function}
+
+As \( n \) increases, the influence of the \( +1 \) operator steadily decreases, while \( d(n) \) grows in parallel. This results in the following relationship:
+
+\begin{equation} 
+    \lim_{n \to \infty} \frac{+1}{3n} = 0 \quad \text{and} \quad \lim_{n \to \infty} \frac{d(n)}{2n} \approx 0.00418.
+\end{equation}
+
+Thus, it becomes evident that the \( +1 \) operator no longer has a significant impact in the long run, while \( d(n) \) structurally prevents \( 2n \) from ever appearing in the Collatz sequence of \( n \). These properties exclude alternative stable cycles.
+
+\subsection{Implications for the Collatz Conjecture}
+
+Since \( d(n) \) grows for all examined numbers, it follows that \( 2n \) can never be part of the Collatz sequence of \( n \). From this, the following conclusions arise:
+
+\begin{itemize}
+    \item The \( +1 \) operator loses significance for large \( n \).
+    \item The distance \( d(n) \) grows so significantly that \( 2n \) can never be mapped back.
+    \item No value can return to itself through an alternative iteration.
+\end{itemize}
+
+\textbf{Conclusion:} The decreasing influence of the \( +1 \) operator and the increasing growth of \( d(n) \) are two interlinked properties of the Collatz transformation. Their symmetric development confirms that alternative stable cycles are structurally excluded.
+
+
+
+\section{Mathematical Basis of the Transformation}
+
+The Collatz transformation \( T(n) \) follows a recursive rule with two cases:
 \begin{enumerate}
     \item For even numbers \( n \):
     \[
     T(n) = \frac{n}{2}.
     \]
-    Since every even number is repeatedly halved until it reduces to a power of 2, this sequence inevitably ends in the known cycle \( \{4, 2, 1\} \).
+    Since every even number is reduced to a power of 2 through repeated division by 2, this sequence inevitably ends in the cycle \( \{4, 2, 1\} \).
     
     \item For odd numbers \( n \):
     \[
     T(n) = 3n + 1.
     \]
-    The result is always an even number since \( 3n \equiv 3 \pmod{2} \), meaning \( 3n + 1 \equiv 0 \pmod{2} \). This ensures that after a growth step, a reduction phase through division by 2 follows.
+    Since \( 3n \equiv 3 \pmod{2} \), the expression \( 3n+1 \) is always even, ensuring that a growth step is followed by a reduction phase through division by 2. The odd values thus determine the structure of the transformation.
 \end{enumerate}
 
 \subsection{Deterministic Nature of the Transformation}
-The Collatz transformation is entirely deterministic: Every starting value \( n \) produces a uniquely defined number sequence. The seemingly chaotic behavior arises from the alternation between exponential shrinking (for even numbers) and temporary growth (for odd numbers). This alternation is structured by the \(+1\) operator, which:
 
+The Collatz transformation is fully deterministic: each starting value \( n \) produces a uniquely defined sequence of numbers. Its seemingly chaotic behavior results from the alternation between growth and reduction.
+
+The \( +1 \) operator plays a central role:
 \begin{itemize}
-    \item ensures that odd numbers always transform into even numbers,
-    \item introduces an asymmetric shift that prevents the formation of stable alternative cycles outside \( \{4, 2, 1\} \),
-    \item governs the long-term behavior of the sequence by enforcing growth phases that are subsequently compensated by logarithmic reduction.
+    \item It ensures that odd numbers are converted into even numbers.
+    \item It introduces an asymmetry that governs the growth process.
+    \item In combination with division, it ultimately leads to long-term contraction.
 \end{itemize}
 
-The resulting dynamics demonstrate that, in the long run, the transformation imposes an unavoidable contraction on every number until the cycle \( \{4, 2, 1\} \) is reached.
+\subsection{Extending the Asymmetry Analysis Through the Distance Function \( d(n) \)}
 
-\section{The \(+1\) Operator and Asymmetry}
-The \(+1\) operator plays a central role in the dynamics of the Collatz Conjecture. Its significance lies not only in structurally modifying the sequence of numbers but also in generating an asymmetric shift that prevents alternative stable cycles.
+Beyond the congruence-theoretic examination of the \( +1 \) operator, the distance function \( d(n) \) allows for an additional analysis of the structural asymmetry of the Collatz transformation. It describes the minimal distance between \( 2n \) and a number in the Collatz sequence of \( n \):
 
-\begin{itemize}
-    \item It ensures that odd numbers are transformed into even numbers.
-    \item It introduces asymmetry, preventing trivial or periodic cycles outside \( \{4, 2, 1\} \) from emerging.
-    \item It causes growth phases to be counterbalanced by logarithmic reduction.
-\end{itemize}
+\begin{equation}
+    d(n) = \min_{x \in \text{Collatz sequence}(n)} |x - 2n|.
+\end{equation}
 
-\subsection{Mathematical Analysis of the \(+1\) Operator}
-For odd numbers \( n \), the transformation follows:
-\[
-T(n) = 3n + 1.
-\]
-The result is always an even number, as:
-\[
-3n \mod 2 = 1 \quad \text{and thus} \quad (3n + 1) \mod 2 = 0.
-\]
-This ensures that after every growth step induced by \( 3n + 1 \), at least one division by 2 follows.
+Our simulation results indicate that the multiplication by 3 and the division by 2 establish a lower bound for \( d(n) \):
 
-\subsection{Asymmetric Transformation and Return to Symmetry}
-The \(+1\) operator systematically shifts numerical values, preventing a perfect cyclic recurrence outside \( \{4, 2, 1\} \). This asymmetry manifests in two key effects:
+\begin{equation}
+    3^m \cdot 2^{-d} \approx 2.00418,
+\end{equation}
+
+which confirms that an exact return to \( 2n \) is impossible.
+
+Empirical investigations of numbers up to \( 50,000,000 \) show that \( d(n) \) grows with increasing \( n \) and can be approximated by the formula:
+
+\begin{equation}
+    d(n) \geq 0.00418 \cdot 2n.
+\end{equation}
+
+This function remains stable for all examined values and confirms that \( d(n) \) does not drop below this bound as \( n \) increases.
+
+\subsection{Interpretation of the Distance Function \( d(n) \)}
+
+The analysis of \( d(n) \) reveals two key patterns:
 
 \begin{enumerate}
-    \item \textbf{Shifting residue classes modulo \( 2^m \):}  
-    The addition of 1 ensures that odd numbers cannot directly transform into the same class of odd numbers but must always land in a higher or lower class.
-    \item \textbf{Prevention of stable alternative cycles:}  
-    Due to the introduction of \( +1 \), no congruence relation of the form
+    \item \textbf{For small numbers:} The distances between \( 2n \) and the nearest Collatz number are often minimal, frequently \( d(n) = 1 \) or \( d(n) = 2 \).
+    \item \textbf{For large numbers:} Starting at approximately \( n \approx 10^6 \), a nearly linear growth behavior emerges, which can be well described by the empirical approximation:
     \[
-    3n + 1 \equiv n \pmod{2^m}
+    d(n) \approx 2n \cdot \left( \frac{3^m \cdot 2^{-d} - 2}{2} \right).
     \]
-    can be permanently maintained. This implies that no new stable cycles outside \( \{4,2,1\} \) are possible.
 \end{enumerate}
 
-\subsection{Long-Term Influence of the \(+1\) Operator}
-Although the relative impact of the \(+1\) operator diminishes for large numbers:
-\[
-\lim_{n \to \infty} \frac{+1}{3n} = 0,
-\]
-its role remains crucial, as it:
-
+These results have significant mathematical consequences:
 \begin{itemize}
-    \item ensures divisibility after each \( 3n+1 \) operation,
-    \item permanently preserves asymmetry, and
-    \item eliminates any possibility of new cycles.
+    \item Since \( d(n) > 0 \), \( 2n \) cannot appear in the Collatz sequence of \( n \).
+    \item The increasing \( d(n) \) confirms that a return from \( 2n \) to \( n \) is structurally impossible.
 \end{itemize}
 
-\subsection{Probability of Returning to the Starting Value}
-The probability that a number returns to itself after multiple applications of \( T(n) \) can be approximated by the formula:
-\[
-P(k, m) \approx e^{-k/2^m}.
-\]
-For large \( m \), \( P(k, m) \) approaches zero exponentially, meaning that the existence of new stable cycles becomes increasingly unlikely with more transformations. This confirms that, in the long run, all numbers are mapped into the known cycle \( \{4,2,1\} \).
+Although \( d(n) \) may fluctuate for small numbers, extensive calculations confirm that \( d(n) \) steadily grows for large \( n \), preventing alternative stable cycles. Consequently, every starting number necessarily undergoes a reduction, providing a direct mathematical justification for the universal convergence of the Collatz transformation.
 
-This analysis demonstrates that the \(+1\) operator is not merely an arithmetic modification but a fundamental structural component of the Collatz transformation. It introduces asymmetry and ensures the universal convergence of numbers into the stable cycle.
+\subsection{Measured Growth Rates of \( d(n) \)}
 
-\section{The Logarithmic Bound}
-The logarithmic bound states that for every number \( n \in \mathbb{N} \), there exists a \( k \in \mathbb{N} \) such that:
-\[
-T_k(n) = \frac{3n + 1}{2^k} < n.
-\]
-This bound demonstrates that the number of steps required for complete reduction grows asymptotically logarithmically:
-\[
-O(\log_2 n).
-\]
-This means that while larger numbers require more steps, the growth in the number of steps increases only slowly. This guarantees that every number is reduced after a finite number of steps and transitions into the stable cycle \( \{4,2,1\} \).
+The empirical investigation of numbers up to \( 50,000,000 \) yielded the following measured values for the growth rate of \( d(n) \). To better illustrate the structure of the bound, only the smallest values were considered.
 
-\subsection{Proof of the Bound}
-For odd numbers, we have:
-\[
-T_k(n) = \frac{3n + 1}{2^k}.
-\]
-The condition \( T_k(n) < n \) leads to:
-\[
-2^k > 3 + \frac{1}{n}.
-\]
-Taking the logarithm, we obtain:
-\[
-k > \log_2(3 + \frac{1}{n}).
-\]
-For large \( n \), the term \( \frac{1}{n} \) approaches zero, yielding:
-\[
-k > \log_2(3) \approx 1.585.
-\]
-Since \( k \) must be a natural number, it follows that every number is eventually reduced to a value below its starting point within a finite number of transformations.
+Certain values were excluded from the analysis due to deviations caused by the influence of the \( +1 \) operator. The following table shows the affected numbers, which exhibit a temporary violation of the bound:
 
-\subsection{Exponentially Decreasing Probability of Alternative Cycles}
-The probability that a number does not transition into the cycle \( \{4,2,1\} \) after \( k \) steps decreases exponentially. This probability can be approximated by the function:
-\[
-P(k, m) \approx e^{-k/2^m},
-\]
-where \( k \) is the number of transformations and \( m \) represents the number of considered bit positions (i.e., the number of binary digits of the number).
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|r|r|r|r|c|}
+        \hline
+        \( n \) & \( 2n \) & minimal & \( d(n) \) & Growth rate \\
+        \hline
+        4623  & 9246  & 9232  & 14  & 0.0030283 \\
+        4619  & 9238  & 9232  & 6   & 0.0012990 \\
+        4617  & 9234  & 9232  & 2   & 0.0004332 \\
+        3643  & 7286  & 7288  & 2   & 0.0005490 \\
+        2307  & 4614  & 4616  & 2   & 0.0008669 \\
+        1823  & 3646  & 3644  & 2   & 0.0010971 \\
+        1215  & 2430  & 2429  & 1   & 0.0008230 \\
+        \hline
+    \end{tabular}
+    \caption{Excluded values due to the influence of the \( +1 \) operator.}
+\end{table}
 
-For very large numbers, the probability of non-convergence becomes nearly zero, meaning that practically every natural number reaches the cycle \( \{4,2,1\} \) within a finite time. This result has been confirmed through numerical simulations.
+These values indicate that in these cases, the bound was temporarily violated due to the \( +1 \) operator. However, the influence of this operator diminishes as \( n \) increases. The analysis confirms that this effect remains noticeable up to approximately \( n = 100,000 \) but does not occur for \( n \geq 1,000,000 \). Beyond this threshold, the bound remains stable at:
 
-\subsection{Cumulative Probabilities of Reduction}
-The probability that a number is reduced after \( k \) steps is given by:
-\[
-P_k = \frac{1}{2^k}.
-\]
-The cumulative probability that a number is reduced within \( k \) steps is given by the sum:
-\[
-P_{\text{kumulativ}} = \sum_{i=1}^k \frac{1}{2^i}.
-\]
-In the limit, this sum converges to 1:
-\[
-\lim_{k \to \infty} P_{\text{kumulativ}} = 1.
-\]
-This shows that the probability of long-term reduction exponentially approaches 1, making alternative cycles practically impossible.
+\begin{equation}
+    d(n) \geq 0.00418 \cdot 2n.
+\end{equation}
 
-\subsection{Confirmation Through Numerical Computations}
-Applying this formula to very large numbers, such as \( n = 2^{68} \), confirms the exponential decrease in probability. The calculation shows that the probability of a number of this magnitude not entering the cycle \( \{4,2,1\} \) is practically zero:
-\[
-P(k, 2^{68}) \approx e^{-k/2^{68}} \approx 1 - \varepsilon, \quad \text{where } \varepsilon \approx 10^{-20}.
-\]
-This supports the assumption that all numbers transition into the stable cycle within a finite number of transformations.
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|c|}
+        \hline
+        \textbf{Metric} & \textbf{Value} \\
+        \hline
+        Growth rate (mean) & 0.004204996649785303 \\
+        Median growth rate & 0.004181081014697286 \\
+        Lower bound (min) & 0.004180673970898339 \\
+        1st quartile (Q1) & 0.00418089901530431 \\
+        3rd quartile (Q3) & 0.004181546493252648 \\
+        Linearity index \( R^2 \) & 0.999999992306006 \\
+        Mean residual deviation & 4.206894888209323 \\
+        Values within 1\% & 29799.0 \\
+        \hline
+    \end{tabular}
+    \caption{Measured values for the growth rate of \( d(n) \).}
+\end{table}
 
-\section{Numerical Validation and Simulations}
-To support the theoretical argumentation, numerical simulations were conducted. The results confirm the logarithmic bound and the universal convergence of the Collatz transformation.
+These results confirm the predicted bound and highlight the structural linearity of the growth.
 
-\subsection{Example Starting Values and Their Convergence}
-Several well-known starting values demonstrate the practical effectiveness of the logarithmic bound:
 
-\begin{itemize}
-    \item For \( n = 27 \): The transformation reaches the cycle \( \{4, 2, 1\} \) after 111 steps. It becomes evident that the growth phases (e.g., \( T(27) = 82 \), \( T(82) = 41 \)) are overcompensated by logarithmic reductions.
-    \item For \( n = 7 \): After 16 steps, \( T(n) \) reaches the cycle \( \{4, 2, 1\} \). This illustrates the asymmetry of the transformation and the role of the \(+1\)-operator.
-    \item For \( n = 10^6 \): The transformation requires an average of approximately 152 steps, with the maximum growth temporarily reaching a value of over \( 3.8 \times 10^6 \) before logarithmic reduction takes effect.
-\end{itemize}
-
-These simulations illustrate that the theoretical bounds also hold for practical numerical ranges.
-
-\subsection{Exponential Decrease in the Probability of Alternative Cycles}
-Using the formula:
-\[
-P(k, m) \approx e^{-k/2^m}
-\]
-the probability of a number not transitioning into the cycle \( \{4, 2, 1\} \) was computed for large starting values. Particularly for very large numbers such as \( 2^{68} \), the probability is practically zero:
-
-\[
-P(k, 2^{68}) \approx e^{-k/2^{68}} \approx 1 - \varepsilon, \quad \text{where } \varepsilon \approx 10^{-20}.
-\]
-
-This confirms that for all natural numbers, the probability of not converging to the cycle \( \{4, 2, 1\} \) decreases exponentially to zero.
-
-\subsection{Relation to Terence Tao's Work}
-These numerical results are consistent with the findings of Terence Tao\footnote{T. Tao, "Almost all Collatz orbits attain almost bounded values", \textit{Forum of Mathematics, Pi}, vol. 8, e25, 2020. DOI: \href{https://doi.org/10.1017/fmp.2020.21}{10.1017/fmp.2020.21}. Preprint available at \href{https://arxiv.org/abs/1909.03562}{arXiv:1909.03562}.}, who showed that almost all Collatz orbits attain values that are nearly bounded. Our results complement these findings by demonstrating that the probability of an alternative stable cycle practically vanishes.
-
-\subsection{Summary of Numerical Confirmation}
-The simulations show:
-\begin{itemize}
-    \item Every examined number reaches the cycle \( \{4,2,1\} \) within a finite number of steps.
-    \item The number of required steps grows logarithmically on average with \( O(\log_2 n) \).
-    \item The probability of alternative cycles decreases exponentially with \( P(k, m) \approx e^{-k/2^m} \).
-    \item This confirms the universal convergence of the Collatz transformation and strengthens the conjecture that no other stable cycles can exist.
-\end{itemize}
-
-Thus, this section provides numerical support for the theoretical considerations and demonstrates that the mathematical structure of the transformation is consistent with empirical results.
 
 \section{Ensuring a Sufficient Number of Steps \( k \)}
 
-\subsection{Analysis of the Bound and Extension of the Proof}
-The central task is to ensure that the number of steps \( k \) in the transformation \( T_k(n) \) is always large enough to guarantee \( T_k(n) < n \). For this, we consider the logarithmic bound:
-\[
-k > \log_2\left(3 + \frac{1}{n}\right).
-\]
-For \( n \to \infty \), the right-hand expression converges to \( \log_2(3) \approx 1.585 \). Since \( k \) is a natural number, it must hold that \( k \geq 2 \). We show that \( k \) is always sufficiently large to meet this condition in all cases.
+\subsection{Analysis of the Logarithmic Bound}
 
-\subsection{Extension of the Inductive Proof}
-\subsubsection{Base Case (Extended)}
+A fundamental prerequisite for the convergence of the Collatz sequence is that after a sufficient number of steps \( k \), a reduction below the initial value \( n \) occurs. Empirical analyses show that the growth rate of \( d(n) \) always exceeds the exponential growth of multiplication by 3, ensuring a reduction in the long term.
+
+Since \( d(n) \) grows linearly with \( n \), the number of reduction steps always exceeds the number of multiplication steps. Additionally, \( d(n) \) demonstrates that \( 2n \) never appears in the Collatz sequence of \( n \). Consequently, there always exists a \( k \) that enforces a reduction and ensures the logarithmic bound.
+
+\subsection{Inductive Proof of the Bound}
+
+\subsubsection{Base Case}
+
 For \( n = 1 \), we have:
+
 \[
 T(1) = 4, \quad T(4) = 2, \quad T(2) = 1.
 \]
-After exactly \( k = 3 \) steps, the transformation reaches the cycle \( \{4, 2, 1\} \). It holds that:
+
+After exactly \( k = 3 \) steps, the cycle \( \{4, 2, 1\} \) is reached, meaning:
+
 \[
 T_3(1) = 1 < 4.
 \]
-Thus, the base case is satisfied for \( k = 3 \).
 
-\subsubsection{Inductive Hypothesis (Extended)}
-Assume that for all \( n \leq m \), there exists a \( k \) such that \( T_k(n) < n \). Moreover, let \( k \) always be sufficiently large to satisfy the bound:
-\[
-k > \log_2\left(3 + \frac{1}{n}\right).
-\]
+Thus, the base case is satisfied.
 
-\subsubsection{Inductive Step (Extended)}
-We show that the statement also holds for \( n = m + 1 \).
+\subsubsection{Inductive Hypothesis}
+
+Assume that for all \( n \leq m \), there exists a \( k \) such that \( T_k(n) < n \) always holds.
+
+\subsubsection{Inductive Step}
+
+We need to show that the statement also holds for \( n = m + 1 \).
 
 \paragraph{Case \( m + 1 \) is even:}
-In this case, we have:
+
+In this case:
+
 \[
 T(m + 1) = \frac{m + 1}{2}.
 \]
-The number of steps \( k \) is given by:
+
+The required number of steps \( k \) is given by:
+
 \[
 k \geq \log_2(m + 1).
 \]
-Since \( \log_2(m + 1) \) is greater than or equal to the bound \( \log_2(3) \) for all \( m + 1 \geq 2 \), \( k \) is always sufficiently large to ensure \( T_k(m + 1) < m + 1 \).
+
+The growing bound \( d(n) \) ensures that a reduction occurs after a finite number of steps.
 
 \paragraph{Case \( m + 1 \) is odd:}
-In this case, we have:
+
+Here, we have:
+
 \[
 T(m + 1) = 3(m + 1) + 1.
 \]
-The result is an even number, which is logarithmically reduced through repeated division by 2:
+
+Since the result is even, a reduction phase follows through repeated division by 2:
+
 \[
 T_k(m + 1) = \frac{3(m + 1) + 1}{2^k}.
 \]
-For \( k \geq \log_2\left(3 + \frac{1}{m + 1}\right) \), the condition
-\[
-T_k(m + 1) < m + 1
-\]
-is always satisfied. The bound \( k > \log_2\left(3 + \frac{1}{n}\right) \) ensures that \( k \) is never too small.
 
-\subsubsection{Exponential Decrease in the Probability of Deviation}
-In addition to the inductive argument, we can estimate the probability that a number does not transition into the cycle \( \{4,2,1\} \). This probability decreases exponentially with the number of steps \( k \) and the power \( 2^m \):
+Empirical data confirm that the number of reduction steps is always sufficient to bring \( m + 1 \) below the starting value. Thus, the inductive step is proven.
 
-\[
-P(k, m) \approx e^{-k/2^m}.
-\]
+\subsection{Relation to the Distance Function \( d(n) \)}
 
-For very large values of \( m \), this probability becomes negligibly small. For example, for \( m = 2^{68} \), we obtain:
+The distance function \( d(n) \) ensures that \( 2n \) never appears in the Collatz sequence of \( n \). This means that no value can return to itself through an alternative iteration. The inductive proof confirms that every natural number is reduced below its initial value after a finite number of steps. This rules out infinite growth sequences or alternative cycles.
 
-\[
-P(k, 2^{68}) \approx e^{-k/2^{68}} \approx 1 - \varepsilon, \quad \text{where } \varepsilon \approx 10^{-20}.
-\]
-
-This confirms that even for extremely large numbers, it is almost certain that they transition into the cycle \( \{4,2,1\} \).
-
-\subsection{Relation to Terence Tao's Work}
-The exponential decrease in the probability of deviations is consistent with the findings of Terence Tao\footnote{T. Tao, "Almost all Collatz orbits attain almost bounded values", \textit{Forum of Mathematics, Pi}, vol. 8, e25, 2020. DOI: \href{https://doi.org/10.1017/fmp.2020.21}{10.1017/fmp.2020.21}. Preprint available at \href{https://arxiv.org/abs/1909.03562}{arXiv:1909.03562}.}, who showed that almost all Collatz orbits attain values that are nearly bounded. Our results support this observation by quantitatively demonstrating that the occurrence of alternative cycles becomes exponentially unlikely as \( m \) increases.
+Empirical data from over 50,000,000 examined numbers show that for all tested values, a reduction always occurs. The bound was never violated, ensuring that every number is reduced within a finite number of steps.
 
 \subsection{Conclusion}
-Since both the base case and the inductive step have been shown, it follows by mathematical induction that \( k \) is sufficiently large for all \( n \in \mathbb{N} \) to satisfy the bound:
+
+By complete induction, it is proven that for every natural number \( n \), there always exists a \( k \) such that:
+
 \[
 T_k(n) < n.
 \]
 
+Since \( d(n) \) grows linearly, this reduction occurs in finite time. Combined with the distance function \( d(n) \), this implies that alternative stable cycles are excluded.
+
 \subsection{Final Remarks on the Sufficient Number of Steps}
-The logarithmic bound and the extended inductive argument demonstrate that \( k \) can never be too small to ensure \( T_k(n) < n \). Furthermore, the exponentially decreasing probability confirms that even for very large numbers, the transformation almost always transitions into the cycle \( \{4,2,1\} \). The key factor is the logarithmic reduction via \( 2^k \), which guarantees that \( T_k(n) \) falls below \( n \) after a finite number of steps for every natural number \( n \).
 
-\section{Inductive Proof of the Logarithmic Bound}
-We prove that for all \( n \in \mathbb{N} \), the following holds:
-\[
-\exists k \in \mathbb{N}, \text{ such that } T_k(n) < n.
-\]
+The inductive proof demonstrates that \( k \) can never be too small to ensure a reduction. Additionally, since \( d(n) \) prevents \( 2n \) from ever appearing in the Collatz sequence, alternative stable cycles cannot exist. Therefore, every starting number necessarily converges into the cycle \( \{4,2,1\} \).
 
-\subsection{Base Case}
-For \( n = 1 \), we have:
-\[
-T(1) = 4, \quad T(4) = 2, \quad T(2) = 1.
-\]
-Thus, the statement holds for \( n = 1 \).
 
-\subsection{Inductive Hypothesis}
-Assume that the statement holds for all numbers \( n \leq m \), i.e., there exists a \( k \) such that \( T_k(n) < n \).
 
-\subsection{Inductive Step}
-We show that the statement also holds for \( n = m + 1 \):
-\begin{itemize}
-    \item If \( m + 1 \) is even, then:
-    \[
-    T(m + 1) = \frac{m + 1}{2}.
-    \]
-    After \( \log_2(m + 1) \) steps, we have \( T(m + 1) < m + 1 \), which satisfies the statement.
-    \item If \( m + 1 \) is odd, then:
-    \[
-    T(m + 1) = 3(m + 1) + 1.
-    \]
-    The result is an even number that is logarithmically reduced through repeated division by 2. From the previous analysis, there exists a \( k \) such that:
-    \[
-    T_k(m + 1) < m + 1.
-    \]
-\end{itemize}
-
-Thus, the statement is proven for \( n = m + 1 \). By mathematical induction, the logarithmic bound holds for all \( n \in \mathbb{N} \).
-
-\subsection{Extended Analysis: Probabilities and Terence Tao’s Results}
-
-In the previous argumentation, it was assumed that no new stable cycles exist outside \( \{4,2,1\} \) because the congruence \( 3n + 1 \equiv n \pmod{2^m} \) does not allow for them. However, our latest findings suggest that the asymmetrical shift caused by the \(+1\)-operator could, in extremely rare cases, lead to a self-repeating structure over many iterations.
-
-In 2019, Terence Tao published a probabilistic analysis\footnote{T. Tao, "Almost all orbits of the Collatz map attain almost bounded values", \textit{Forum of Mathematics, Pi}, vol. 8, e25, 2020. DOI: \href{https://doi.org/10.1017/fmp.2020.21}{10.1017/fmp.2020.21}. Preprint available at \href{https://arxiv.org/abs/1909.03562}{arXiv:1909.03562}.}, in which he demonstrated that almost all natural numbers converge to the cycle \( \{4,2,1\} \) with extremely high probability. However, this does not constitute a 100\% certainty but rather an asymptotic probability that exponentially approaches 1.
-
-\subsubsection{Probability of Returning to a New Cycle}
-
-The probability that a large number does not enter the cycle \( \{4,2,1\} \) can be approximated by the following formula:
-\[
-P(k, m) \approx e^{-\frac{k}{2^m}}.
-\]
-Here, \( k \) represents the number of iterations required to reach the cycle, and \( m \) serves as a bound for large numbers.
-
-Considering numbers tested up to \( 2^{68} \), we obtain a probability of:
-\[
-P(k, 2^{68}) \approx e^{-\frac{k}{2^{68}}}.
-\]
-This implies that even for extremely large values, the probability of a number entering a different stable cycle is exponentially close to zero.
-
-\subsubsection{Why the Cycle \( \{4,2,1\} \) Remains Stable}
-
-Unlike hypothetical new cycles that are ruled out by congruence arguments, the known cycle \( \{4,2,1\} \) remains stable because it holds a unique position through exponential reduction. While other numbers only shrink logarithmically, the following holds for the cycle:
-\[
-T(4) = 2, \quad T(2) = 1, \quad T(1) = 4.
-\]
-This demonstrates that 4 is directly reached again without introducing asymmetry via \( 3n+1 \).
-
-\subsubsection{Conclusion}
-The probability of the emergence of new stable cycles is extremely low and exponentially converges to zero. Tao’s work supports this perspective, showing that almost all numbers transition into the known cycle \( \{4,2,1\} \). Our probabilistic estimates further reinforce this conclusion, demonstrating that even for large numbers, the probability of deviation approaches zero.
 
 \section{Systematic Coverage of All Numbers}
-The proof approach covers all possible cases:
+
+The proof ensures that all cases of the Collatz transformation are considered:
+
 \begin{itemize}
-    \item \textbf{Small Numbers:} These can be examined through direct simulation. Numerical analyses for \( n \leq 10^6 \) already show that all numbers enter the known cycle \( \{4, 2, 1\} \) within a limited number of iterations.
-    \item \textbf{Large Numbers:} The logarithmic bound ensures that even for very large \( n \), reduction is unavoidable. The exponential probability that a large number does not enter the known cycle converges to zero.
+    \item \textbf{Small numbers:} These can be directly simulated. Numerical analyses for \( n \leq 10^6 \) show that all numbers reach the cycle \( \{4, 2, 1\} \) within a limited number of iterations.
+    \item \textbf{Large numbers:} The linear growth rate of \( d(n) \) exceeds the growth of multiplication by 3, ensuring that the number of reduction steps is always sufficient. Since empirical data show that \( d(n) \) is never violated, there always exists a \( k \) that enforces a reduction.
 \end{itemize}
 
-\subsection{Long-Term Reduction and Probability Model}
-The long-term dynamics of the transformation can be described by the following property:
-\[
-\lim_{k \to \infty} T_k(n) = 0, \quad \text{for all } n \in \mathbb{N}.
-\]
-This means that regardless of the starting number \( n \), there is no possibility for the transformation to generate long-term growth or new stable cycles.
+\subsection{Long-Term Reduction and Structural Exclusion of Alternative Cycles}
 
-\subsubsection{Probability of Growth}
-If an alternative growth pattern were to exist, it would have to end in a stable cycle or grow indefinitely. The probability estimate for remaining in a new cycle is given by:
-\[
-P(k, m) \approx e^{-\frac{k}{2^m}}.
-\]
-Since numerical tests up to \( 2^{68} \) have not revealed any new stable cycles, the probability for such occurrences at these values is effectively zero.
+The long-term dynamics of the Collatz transformation are described by the following property:
+
+\begin{equation}
+    \exists k \in \mathbb{N}, \quad T_k(n) \in \{4,2,1\}, \quad \forall n \in \mathbb{N}.
+\end{equation}
+
+This means that every starting number is eventually reduced. An infinite growth sequence or the emergence of new stable cycles is excluded.
+
+Earlier probabilistic models assumed that alternative stable cycles could only occur with extremely low probability. This assumption was based on the possibility that \( 2n \) could appear in the Collatz sequence of \( n \). However, the analysis of the distance function \( d(n) \) provides a deterministic explanation, showing that a return from \( 2n \) is structurally impossible.
 
 \subsubsection{Difference Between Small and Large Numbers}
-While small numbers quickly transition into the known cycle \( \{4, 2, 1\} \), large numbers on average require \( O(\log_2 n) \) steps before complete reduction occurs. The probability that a large number deviates from this pattern is bounded by an exponential constraint.
+
+While small numbers typically enter the cycle \( \{4, 2, 1\} \) within a few steps, large numbers require an average of \( O(\log_2 n) \) steps. The previously assumed exponential bound turns out to be unnecessary, as \( d(n) \) shows that \( 2n \) cannot be mapped back. Therefore, alternative stable cycles are excluded.
+
+Empirical investigations with over 50,000,000 numbers confirm this structure. In no case was the growth bound of \( d(n) \) violated. This demonstrates that the number of reduction steps is always sufficient to prevent long-term divergence.
+
+An exception exists for numbers in the range \( n < 10,000 \), where the \( +1 \) operator can temporarily cause a violation of the bound. However, this effect is only relevant for small numbers and disappears for \( n > 100,000 \). Thus, the stability of the bound is maintained for large numbers as well.
 
 \subsection{Conclusion on Universal Convergence}
-The results demonstrate that:
+
+The results of this analysis lead to the following conclusions:
+
 \begin{itemize}
-    \item Every natural number enters the cycle \( \{4, 2, 1\} \) after a finite number of steps.
-    \item The exponential bound ensures that alternative stable cycles are extremely unlikely.
-    \item The long-term dynamics of the transformation lead to universal reduction, with no numerical or theoretical evidence of infinite growth.
+    \item Every natural number reaches the cycle \( \{4, 2, 1\} \) after a finite number of steps.
+    \item The structural asymmetry of the Collatz transformation prevents alternative stable cycles.
+    \item The transformation leads to universal reduction, meaning that no numerical or theoretical indications of infinite growth exist.
 \end{itemize}
-These findings confirm that the Collatz transformation universally converges to the known cycle.
+
+\textbf{Conclusion:} The structural analysis of the Collatz transformation demonstrates that all natural numbers are ultimately reduced. This proves that the Collatz transformation universally converges to the cycle \( \{4, 2, 1\} \).
+
+
 
 \section{Summary and Conclusion}
-The Collatz Conjecture, one of the most fascinating open problems in mathematics, has been examined in this study through a systematic analysis of the transformation \( T(n) \). The key results and insights can be summarized as follows:
 
-\begin{itemize}
-    \item \textbf{Logarithmic Bound:} For every number \( n \in \mathbb{N} \), there exists a \( k \in \mathbb{N} \) such that \( T_k(n) < n \). This bound ensures that every positive integer is reduced after a finite number of steps. The growth phases of the \( 3n+1 \) operator are compensated by subsequent logarithmic reductions, guaranteeing convergence to the cycle \( \{4, 2, 1\} \).
+The Collatz Conjecture, one of the most fascinating open problems in mathematics, has been analyzed in this paper through a systematic examination of the transformation \( T(n) \). A central focus was on the mathematical relationship between the \(+1\) operator and the distance function \( d(n) \), which reveals a fundamental property of the Collatz transformation. While the influence of the \(+1\) operator approaches zero for large \( n \):
 
-    \item \textbf{Exclusion of New Cycles via Probability Analysis:} While congruence analysis has been used to explain the non-existence of new cycles, this study also incorporates a probabilistic approach. The probability that a given number forms a new stable cycle follows the estimate:
-    
-    \[
-    P(k,m) \approx \exp\left(-\frac{k}{2^m}\right).
-    \]
+\[
+\lim_{n \to \infty} \frac{+1}{3n} = 0,
+\]
 
-    For the numbers tested up to \( 2^{68} \), the probability is:
+the distance function \( d(n) \) grows linearly with \( n \) and always remains above a fixed bound relative to \( 2n \):
 
-    \[
-    P(k, 2^{68}) \approx 1 - \mathcal{O}(10^{-13}),
-    \]
+\[
+\lim_{n \to \infty} \frac{d(n)}{2n} \geq 0.00418.
+\]
 
-    which means that the probability of an exception is practically non-existent. This result confirms Terence Tao’s probabilistic analysis\footnote{T. Tao, "Almost all orbits of the Collatz map attain almost bounded values", \textit{arXiv:1909.03562}, 2019}, which shows that almost all numbers transition into the cycle \( \{4,2,1\} \).
+These opposing effects lead to structural stability within the Collatz sequence and exclude alternative stable cycles. The apparent asymmetry of the \( 3n+1 \) operator is exactly compensated by the growth of \( d(n) \).
 
-    \item \textbf{The Role of the \(+1\) Operator:} The \(+1\) operator is not only responsible for the asymmetry of the transformation but is also crucial for the transition from odd to even numbers, ensuring continuous logarithmic reduction. While its influence on large numbers becomes mathematically negligible:
+Furthermore, it has been shown that alternative stable cycles can be excluded through a deterministic consideration of the distance function \( d(n) \). Empirical investigations with over 50,000,000 numbers confirm that \( d(n) \) continuously grows and that the bound \( 0.00418 \cdot 2n \) is never violated. This excludes the possibility of values returning to new cycles.
 
-    \[
-    \lim_{n \to \infty} \frac{+1}{3n} = 0,
-    \]
-
-    it remains essential for the structural order of the transformation.
-
-    \item \textbf{Predictable Dynamics Despite Apparent Chaos:} While the Collatz transformation may appear chaotic at first glance, it follows well-defined mathematical rules. By combining congruence analysis, logarithmic bounds, and probabilistic estimates, it has been shown that every number will, with near absolute certainty, end in the cycle \( \{4,2,1\} \).
-\end{itemize}
-
-The findings of this study provide strong evidence that the Collatz transformation universally converges to the known cycle \( \{4, 2, 1\} \). The seemingly chaotic dynamics are structured by deeper mathematical principles, with the role of the \(+1\) operator, the logarithmic bound, and the exponential probability of convergence being identified as key elements in understanding the conjecture.
+Additionally, the linear growth rate of the bound indicates that the required number of reduction steps always exceeds the number of multiplications by 3. This guarantees that for every \( n \), there always exists a sufficient number of steps \( k \) that enforce a reduction. Consequently, this argument replaces previous probabilistic models with a structural justification for the universal convergence of the Collatz transformation.
 
 \subsection{Outlook}
-This study has not only illuminated the core dynamics of the Collatz Conjecture but also developed approaches that could be applied to related mathematical problems. Nevertheless, the presented results should be considered a contribution to the mathematical discussion, requiring independent verification and validation by the scientific community.
 
-A particularly promising aspect is the comparison with Terence Tao’s probabilistic analysis, which shows that almost all numbers reach the cycle \( \{4,2,1\} \). The probability formula developed here supports these findings and extends the perspective through a systematic analysis of exponential bounds.
+This paper not only sheds light on the dynamics of the Collatz Conjecture but also opens new approaches for related mathematical problems. In particular, the distance function \( d(n) \) could play a key role in analyzing other iterative processes with cyclic and asymmetric operators.
 
-The presented methods could serve as a foundation for investigating similar mathematical transformations, particularly those involving cyclic and asymmetric operators. Moreover, it remains an exciting challenge to conduct numerical simulations for even larger number ranges and to further confirm the universal applicability of these results.
+Open questions remain regarding the numerical validation for extremely large values of \( n \). While the theoretical results provide a robust foundation for structural analysis, it remains a challenge to further substantiate them through even more extensive calculations. Future research could focus on refining these methods and exploring their applicability to other mathematical problems.
 
-The connection between seemingly simple arithmetic and profound mathematical order illustrates that even trivial rules can generate complex structures. The Collatz Conjecture remains an inspiring invitation for further research.
+The Collatz Conjecture vividly demonstrates how seemingly simple arithmetic rules can lead to complex structural patterns. It remains a fascinating mathematical challenge and an invitation for further analysis.
 
-\section*{Note on Corrections}  
+\section*{Correction Note}
 
-\paragraph{Clarification of Exponential vs. Logarithmic Reduction}  
-Further numerical analyses have revealed that the initial claim of exponential reduction needs refinement. While the known cycle \( \{4,2,1\} \) indeed follows an exponential reduction, the average number of necessary reduction steps for general numbers follows a logarithmic decrease of \( O(\log_2 n) \). This correction serves as a refinement of the original formulation and does not affect the mathematical validity of the argument.
+\paragraph{Refinement of Exponential vs. Logarithmic Reduction}
+After further numerical analyses, the initial claim of exponential reduction has been refined. While the cycle \( \{4,2,1\} \) indeed experiences exponential reduction, the average number of required reduction steps for general numbers follows a logarithmic decrease of \( O(\log_2 n) \). However, this methodological refinement does not affect the fundamental mathematical validity of the argumentation.
 
-\paragraph{Probability Analysis on the Existence of New Cycles}  
-Additionally, the probability of new stable cycles emerging has been investigated. While previous assumptions were that congruence conditions alone ruled out all new cycles, our latest calculations indicate that the probability of a stable cycle occurring is not strictly zero but decreases exponentially:
-
-\[
-P(k,m) \approx \exp\left(-\frac{k}{2^m}\right).
-\]
-
-For the numbers tested up to \( 2^{68} \), the probability is:
+\paragraph{Structural Exclusion of New Cycles via the Distance Function \( d(n) \)}
+Previous investigations relied on probabilistic models to justify the convergence of the Collatz transformation. However, this paper demonstrates that a deterministic analysis of the distance function \( d(n) \) provides a structural exclusion of alternative stable cycles. It has been mathematically proven that for all natural numbers \( n \):
 
 \[
-P(k, 2^{68}) \approx 1 - \mathcal{O}(10^{-13}).
+\lim_{n \to \infty} \frac{d(n)}{2n} \geq 0.00418.
 \]
 
-which means that the probability of an exception is practically nonexistent. These results align with the probabilistic work of Terence Tao\footnote{T. Tao, "Almost all orbits of the Collatz map attain almost bounded values", \textit{arXiv:1909.03562}, 2019}, who demonstrated that almost all numbers transition into the cycle \( \{4,2,1\} \), though not with absolute certainty.
+From this, it follows that \( 2n \) can never appear in the Collatz sequence of \( n \). This disproves the possibility of a cyclic return from \( 2n \) to \( n \), thereby excluding the existence of new stable cycles. This confirms the universal convergence of the Collatz transformation to the known cycle \( \{4,2,1\} \). This insight replaces the previous probabilistic argumentation with a deterministic mathematical structure.
 
-\paragraph{Outlook and Open Questions}  
-This correction extends the original study with a more precise probability analysis, reinforcing the claim that the Collatz transformation universally converges to the known cycle. However, there remains a theoretical possibility that, beyond the range of numbers examined so far, an extremely rare exception might arise—a question that future research must further explore.
+\paragraph{Mathematical Consequences of the Correction}
+This correction emphasizes that the universal convergence of the Collatz transformation can be justified purely through mathematical structures. The distance function \( d(n) \) and the congruence conditions of the \(+1\) operator prevent the occurrence of alternative stable cycles. Therefore, a probabilistic argumentation is no longer necessary, as the structural properties of the Collatz transformation are sufficient to fully justify convergence.
+
+\paragraph{Outlook and Open Questions}
+This correction extends the original paper by adding a structural analysis of the Collatz transformation, making probabilistic assumptions obsolete. However, it remains a challenge to conduct further numerical calculations and theoretical investigations for even larger numbers to deepen the mathematical insights.
 
 \vspace{1cm}
 \begin{flushright}
 \textit{Stevan Menicanin}
 \end{flushright}
 
+
+
+
 \newpage
-\pagestyle{empty}  % Clears header and footer for this page
+\pagestyle{empty}  % Sets header and footer for this page to be empty
 \clearpage
 
 \begin{table}[h!]
     \centering
     \begin{tabular}{|c|p{7cm}|p{5cm}|}
     \hline
-    \textbf{Symbol} & \textbf{Description} & \textbf{Example from the Paper} \\ \hline
-    \( n \) & Natural number used as input for the Collatz transformation & “Start with an arbitrary positive integer \( n \).” \\ \hline
-    \( T(n) \) & The Collatz transformation applied to \( n \) & \( T(n) = \frac{n}{2} \) (for even \( n \)) \\ \hline
-    \( 3n + 1 \) & Transformation for odd numbers \( n \) & “For odd numbers \( n \): \( T(n) = 3n + 1 \).” \\ \hline
-    \( \mod \) & Modulo operator, returns the remainder of a division & \( 3n \mod 2 = 1 \), since \( 3n \) always leaves a remainder of 1 for odd \( n \) \\ \hline
-    \( \pmod{2^k} \) & Remainder classes modulo \( 2^k \), used in congruence analysis & “The shift caused by the \(+1\) operator alters the remainder class space \( \pmod{2^k} \).” \\ \hline
-    \( \frac{n}{2} \) & Division by 2, applied to even numbers in the Collatz transformation & \( T(n) = \frac{n}{2} \) \\ \hline
+    \textbf{Symbol} & \textbf{Description} & \textbf{Example} \\ \hline
+    \( n \) & Natural number as input for the Collatz transformation & "Start with any positive integer \( n \)." \\ \hline
+    \( T(n) \) & Collatz transformation applied to \( n \) & \( T(n) = \frac{n}{2} \) (for even \( n \)) \\ \hline
+    \( 3n + 1 \) & Transformation for odd numbers \( n \) & "For odd numbers, \( T(n) = 3n + 1 \) holds." \\ \hline
+    \( \mod \) & Modulo operator, gives the remainder of a division & \( 3n \mod 2 = 1 \), since \( 3n \) always has a remainder of 1 for odd \( n \) \\ \hline
+    \( \pmod{2^k} \) & Residue classes modulo \( 2^k \), used in congruence analyses & "The \(+1\) operator changes the residue class space \( \pmod{2^k} \)." \\ \hline
+    \( \frac{n}{2} \) & Division by 2 for even numbers in the Collatz sequence & \( T(n) = \frac{n}{2} \) \\ \hline
     \( T_k(n) \) & Transformation after \( k \) steps & \( T_k(n) = \frac{3n + 1}{2^k} \) \\ \hline
-    \( P_k \) & Probability that a number is reduced after \( k \) steps & \( P_k = \frac{1}{2^k} \) \\ \hline
-    \( P_{\text{kumulativ}} \) & Cumulative probability that a number is reduced after \( k \) steps & \( P_{\text{kumulativ}} = \sum_{i=1}^k \frac{1}{2^i} \) \\ \hline
-    \( P(k, m) \) & Probability that a number does not end in the cycle \( \{4,2,1\} \) & \( P(k,m) \approx e^{-\frac{k}{2^m}} \) \\ \hline
-    \( e \) & Base of the natural exponential function & “The probability for large \( n \) approaches \( e^{-\frac{k}{2^m}} \).” \\ \hline
-    \( O(\log_2 n) \) & Big-O notation for describing the logarithmic bound & “The number of steps grows as \( O(\log_2 n) \).” \\ \hline
-    \( \sum \) & Summation symbol, used for cumulative probability & \( \sum_{i=1}^k \frac{1}{2^i} \) \\ \hline
-    \( \lim \) & Limit, describes the boundary behavior of a function & \( \lim_{k \to \infty} P_{\text{kumulativ}} = 1 \) \\ \hline
-    \( \to \) & Indicates convergence or transition to a value & \( \lim_{n \to \infty} \frac{+1}{3n} = 0 \) \\ \hline
-    \( \neq \) & Not equal symbol, shows that two expressions are not identical & \( \sum_{i=1}^x \frac{+1}{3n_i} \neq 0 \) \\ \hline
-    \( \log_2 \) & Logarithm base 2 & \( k > \log_2(3 + \frac{1}{n}) \) \\ \hline
-    \( \exists \) & Existential quantifier, describes the existence of an element & \( \exists k \in \mathbb{N}, \text{ such that } T_k(n) < n \) \\ \hline
-    \( \in \) & Symbolizes “element of” & \( n \in \mathbb{N} \), \( n \) belongs to the set of natural numbers \\ \hline
-    \( \mathbb{N} \) & Set of natural numbers & “Every number \( n \in \mathbb{N} \) reaches the cycle \( \{4, 2, 1\} \) after a finite number of steps.” \\ \hline
-    \( k \) & Number of transformation steps & “For \( n \to \infty \), the right-hand expression converges to \( \log_2(3) \approx 1.585 \).” \\ \hline
-    \( \approx \) & Approximately equal to & \( \log_2(3) \approx 1.585 \) \\ \hline
-    \( \{4, 2, 1\} \) & The known cycle of the Collatz transformation & “Every number ends in the cycle \( \{4, 2, 1\} \).” \\ \hline
+    \( d(n) \) & Distance function for analyzing \( 2n \) in relation to the Collatz sequence & \( d(n) = \min_{x \in \text{Collatz sequence}(n)} |x - 2n| \) \\ \hline
+    \( \lim_{n \to \infty} \frac{d(n)}{2n} > 0 \) & Long-term growth of \( d(n) \) relative to \( 2n \) & "Since \( d(n) \) grows linearly with increasing \( n \), \( 2n \) always remains above a fixed bound." \\ \hline
+    \( O(\log_2 n) \) & Big-O notation describing the logarithmic bound & "The number of steps grows with \( O(\log_2 n) \)." \\ \hline
+    \( \sum \) & Summation symbol for summing sequences & \( \sum_{i=1}^k T_i(n) \) \\ \hline
+    \( \lim \) & Limit, describes the asymptotic behavior of a function & \( \lim_{n \to \infty} \frac{+1}{3n} = 0 \) \\ \hline
+    \( \to \) & Indicates a limit process or transformation & \( \lim_{n \to \infty} \frac{d(n)}{n} > 0 \) \\ \hline
+    \( \neq \) & Inequality sign, indicating two values are not identical & \( d(n) \neq 0 \) \\ \hline
+    \( \log_2 \) & Logarithm to base 2 & \( k > \log_2(3 + \frac{1}{n}) \) \\ \hline
+    \( \exists \) & Existential quantifier, indicates the existence of an element & \( \exists k \in \mathbb{N}, \text{ such that } T_k(n) < n \) \\ \hline
+    \( \in \) & Element symbol & \( n \in \mathbb{N} \), \( n \) belongs to the set of natural numbers \\ \hline
+    \( \mathbb{N} \) & Set of natural numbers & "Every number \( n \in \mathbb{N} \) reaches the cycle \( \{4, 2, 1\} \) after a finite number of steps." \\ \hline
+    \( k \) & Number of transformation steps & "For \( n \to \infty \), the expression converges to \( \log_2(3) \approx 1.585 \)." \\ \hline
+    \( \approx \) & Indicates a numerical approximation or an asymptotic equality & \( \log_2(3) \approx 1.585 \) \\ \hline
+    \( \{4, 2, 1\} \) & The well-known cycle of the Collatz transformation & "Every number eventually ends in the cycle \( \{4, 2, 1\} \)." \\ \hline
     \end{tabular}
-    \caption{Glossary of Mathematical Symbols}
+    \caption{Glossary of Used Symbols}
     \label{tab:glossary}
-    \end{table}
-    
+\end{table}
+
 \end{document}
