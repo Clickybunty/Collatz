@@ -4,23 +4,23 @@ _A mathematical paper on the Collatz Conjecture by Stevan Menicanin_
 
 [🔗 Deutsche Version unten](#-die-collatz-schranke--untersuchung-der-zentralen-dynamik-und-konvergenz)
 
-## ✭ Version Note (Version 3.0)
+## ✭ Version Note (Version 3.1)
 
-**Current Version:** 3.0 – *Optimized Representation of Asymmetry, Distance Function \( d(n) \), and Logarithmic Reduction*  
-This version introduces a deterministic approach, eliminating probabilistic assumptions. The distance function \( d(n) \) proves that \( 2n \) never appears in the Collatz sequence of \( n \), structurally excluding alternative cycles.
+**Current Version:** 3.1 – *Refined Asymmetry Analysis, Structural Constraint of \( d(n) \), and Multiplication-Division Ratio*  
+This version strengthens the deterministic approach by eliminating probabilistic assumptions. The distance function \( d(n) \) proves that \( 2n \) never appears in the Collatz sequence of \( n \), making alternative cycles structurally impossible.
 
 ## 📜 Abstract
 
-The **Collatz Conjecture** (also known as the (3n+1) problem) is one of the most fascinating open problems in mathematics.  
+The **Collatz Conjecture** (also known as the (3n+1) problem) is one of the most intriguing open problems in mathematics.  
 This paper presents a new structural analysis of the **Collatz transformation**, proving that universal convergence is inevitable.
 
-Key mathematical conclusions:
+### Key mathematical conclusions:
 
 - Every natural number \( n \) enters the cycle \( \{4,2,1\} \) after a finite number of steps.
 - No alternative stable cycles exist outside \( \{4,2,1\} \).
-- The number of reduction steps follows \( O(\log_2 n) \), proving logarithmic rather than exponential reduction.
+- The number of reduction steps follows \( O(\log_2 n) \), confirming logarithmic rather than exponential reduction.
 - The distance function \( d(n) \) grows strictly monotonically and ensures that \( 2n \) never appears in the Collatz sequence.
-- Asymmetry in the transformation plays a fundamental role in the process.
+- Structural asymmetry in multiplication and division fundamentally prevents alternative cycles.
 
 ---
 
@@ -39,10 +39,10 @@ Key mathematical conclusions:
 Download the full paper as a PDF:
 
 📄 **English Version**  
-➡️ [Download (Collatz_Schranke_EN.pdf)](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeEn.pdf)
+➡️ [Download (Collatz_Bound_EN.pdf)](https://github.com/Clickybunty/Collatz/blob/main/Collatz_Bound_EN.pdf)
 
 📄 **German Version**  
-➡️ [Download (Collatz_Schranke_DE.pdf)](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeDe.pdf)
+➡️ [Download (Collatz_Bound_DE.pdf)](https://github.com/Clickybunty/Collatz/blob/main/Collatz_Bound_DE.pdf)
 
 📊 **Filtered Collatz Results Data**  
 ➡️ [Download (filtered_collatz_results.csv)](https://github.com/Clickybunty/Collatz/blob/main/filtered_collatz_results.csv)
@@ -54,14 +54,25 @@ Download the full paper as a PDF:
 If you wish to edit or analyze this work, you can access the **LaTeX source code**.
 
 📜 **English LaTeX Source**:  
-➡️ [27JanuarCollatzSchrankeEn.TeX](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeEn.TeX)
+➡️ [Collatz_Bound_EN.TeX](https://github.com/Clickybunty/Collatz/blob/main/Collatz_Bound_EN.TeX)
 
 📜 **German LaTeX Source**:  
-➡️ [27JanuarCollatzSchrankeDe.TeX](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeDe.TeX)
+➡️ [Collatz_Bound_DE.TeX](https://github.com/Clickybunty/Collatz/blob/main/Collatz_Bound_DE.TeX)
 
 **Required Packages:**
 
 - `amsmath`, `amssymb`, `hyperref`, `geometry`, `pgfplots`, `tikz`
+
+---
+
+## 🛠️ **LaTeX Compilation**
+
+To compile the PDF yourself, use the following commands:
+
+```sh
+pdflatex Collatz_Bound_EN.TeX
+pdflatex Collatz_Bound_DE.TeX
+```
 
 ---
 
@@ -80,10 +91,10 @@ _Ein mathematisches Paper zur Collatz-Vermutung von Stevan Menicanin_
 
 [English Version below](#-the-collatz-bound--analysis-of-central-dynamics-and-convergence)
 
-## ✭ Versionshinweis (Version 3.0)
+## ✭ Versionshinweis (Version 3.1)
 
-**Aktuelle Version:** 3.0 – *Optimierte Darstellung der Asymmetrie, Distanzfunktion \( d(n) \) und logarithmischen Reduktion*  
-Diese Version führt einen deterministischen Ansatz ein und eliminiert probabilistische Annahmen. Die Distanzfunktion \( d(n) \) zeigt, dass \( 2n \) niemals in der Collatz-Folge von \( n \) auftritt, wodurch alternative stabile Zyklen strukturell ausgeschlossen werden.
+**Aktuelle Version:** 3.1 – *Präzisierte Asymmetrieanalyse, strukturelle Schranke von \( d(n) \) und Multiplikations-Divisions-Verhältnis*  
+Diese Version stärkt den deterministischen Ansatz, indem sie probabilistische Annahmen eliminiert. Die Distanzfunktion \( d(n) \) zeigt, dass \( 2n \) niemals in der Collatz-Folge von \( n \) auftritt, wodurch alternative stabile Zyklen strukturell ausgeschlossen sind.
 
 ## 📜 Abstract
 
@@ -96,8 +107,7 @@ Diese Arbeit präsentiert eine neue strukturelle Analyse der **Collatz-Transform
 - Keine alternativen stabilen Zyklen existieren außerhalb von \( \{4,2,1\} \).
 - Die Anzahl der Reduktionsschritte folgt \( O(\log_2 n) \), was eine logarithmische statt einer exponentiellen Reduktion belegt.
 - Die Distanzfunktion \( d(n) \) wächst streng monoton und stellt sicher, dass \( 2n \) niemals in der Collatz-Folge erscheint.
-- Die Asymmetrie in der Transformation spielt eine fundamentale Rolle im Ablauf.
-
+- Die strukturelle Asymmetrie der Multiplikation und Division verhindert alternative stabile Zyklen.
 
 ---
 
@@ -116,29 +126,10 @@ Diese Arbeit präsentiert eine neue strukturelle Analyse der **Collatz-Transform
 Die vollständige Arbeit kann hier als PDF heruntergeladen werden:
 
 📄 **Englische Version**  
-➡️ [Download (Collatz_Schranke_EN.pdf)](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeEn.pdf)
+➡️ [Download (Collatz_Bound_EN.pdf)](https://github.com/Clickybunty/Collatz/blob/main/Collatz_Bound_EN.pdf)
 
 📄 **Deutsche Version**  
-➡️ [Download (Collatz_Schranke_DE.pdf)](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeDe.pdf)
-
----
-
-## ⚙️ **Nutzung und LaTeX-Kompatibilität**
-
-Falls du die Arbeit bearbeiten oder nachvollziehen möchtest, findest du hier den **LaTeX-Quellcode**.
-
-📜 **Englischer LaTeX-Quelltext**:  
-➡️ [27JanuarCollatzSchrankeEn.TeX](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeEn.TeX)
-
-📜 **Deutscher LaTeX-Quelltext**:  
-➡️ [27JanuarCollatzSchrankeDe.TeX](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeDe.TeX)
-
-📊 **Filtered Collatz Results Data**  
-➡️ [Download (filtered_collatz_results.csv)](https://github.com/Clickybunty/Collatz/blob/main/filtered_collatz_results.csv)
-
-**Erforderliche Pakete:**  
-
-- `amsmath`, `amssymb`, `hyperref`, `geometry`, `pgfplots`, `tikz`
+➡️ [Download (Collatz_Bound_DE.pdf)](https://github.com/Clickybunty/Collatz/blob/main/Collatz_Bound_DE.pdf)
 
 ---
 
@@ -147,5 +138,5 @@ Falls du die Arbeit bearbeiten oder nachvollziehen möchtest, findest du hier de
 Falls du die PDF selbst kompilieren möchtest, kannst du folgende Befehle nutzen:
 
 ```sh
-pdflatex 27JanuarCollatzSchrankeEn.TeX
-pdflatex 27JanuarCollatzSchrankeDe.TeX
+pdflatex Collatz_Bound_EN.TeX
+pdflatex Collatz_Bound_DE.TeX

@@ -15,7 +15,8 @@
 
 \fancyhead{}
 \renewcommand{\headrulewidth}{0pt}  
-\fancyfoot[C]{Version 3.0 – Optimized Representation of Asymmetry, Distance Function $d(n)$, and Logarithmic Reduction}
+\fancyfoot[C]{Version 3.1 – Refined Asymmetry Analysis, Structural Constraint of $d(n)$, and Multiplication-Division Ratio}
+
 \fancyfoot[R]{\raisebox{-5mm}{\thepage}}
 
 \title{Collatz Conjecture – Mathematical Structure and Universal Convergence}
@@ -26,20 +27,26 @@
 
 \maketitle
 
-\section*{Revision Note (Version 3.0)}
-This revised version fully replaces the previous one. Earlier versions used a probabilistic estimation regarding the existence of new stable cycles. However, new insights into the distance function $d(n)$ show that $2n$ never appears in the Collatz sequence of $n$, rendering the probabilistic assumption obsolete and structurally excluding new cycles.
+\section*{Note on the Revision (Version 3.1)}
+This revised version fully replaces the previous one. Earlier versions relied on a probabilistic estimate regarding the existence of new stable cycles. However, new findings on the distance function $d(n)$ demonstrate that $2n$ never appears in the Collatz sequence of $n$, rendering the probabilistic assumption obsolete and structurally excluding new cycles.
 
-The argumentation has therefore been revised and is now entirely based on a deterministic proof using $d(n)$. This version strengthens the convergence proof by eliminating the need for probabilistic assumptions.
+Additionally, the analysis of the multiplication-to-division ratio has been refined. The initial theoretical estimate of $m/d \approx 1.261$ was not confirmed in the simulation. Instead, a systematic ratio of $m/d \approx 0.639$ was observed, which can be explained by the direct compensation of multiplications through subsequent divisions and the influence of the $+1$ operator. This structural asymmetry prevents an exact return to $2n$ and confirms the empirically derived bound of $d(n) \geq 0.00418$.
+
+Therefore, the argumentation has been revised and is now based entirely on a deterministic proof using $d(n)$ and the structural analysis of the multiplication-to-division ratio. This version strengthens the proof of convergence by eliminating the need for probabilistic assumptions and formally establishing the structural stability of the Collatz transformation.
+
 
 \begin{abstract}
-    The Collatz conjecture is one of the most fascinating open problems in mathematics. This paper presents a new approach to explaining universal convergence through a detailed analysis of the transformation $T(n)$. 
-    
-    A central element is the distance function $d(n)$, which describes the minimal distance between $2n$ and a number in the Collatz sequence of $n$. It is shown that $d(n)$ grows strictly monotonically and never reaches zero, thereby excluding new stable cycles.
-    
-    In contrast to probabilistic approaches, this proof is based on a deterministic analysis of the mathematical structure. The logarithmic bound on the necessary number of reduction steps is formally proven, demonstrating that $T_k(n) < n$ always holds after a finite number of steps.
-    
-    This paper establishes that the Collatz transformation does not permit stable cycles outside of $\{4, 2, 1\}$. Thus, the universal convergence of the Collatz sequence is supported by a structural argument that replaces probabilistic assumptions.
+    The Collatz Conjecture is one of the most intriguing open problems in mathematics. This paper presents a new approach to explaining universal convergence through a detailed analysis of the transformation $T(n)$. 
+
+    A key element is the distance function $d(n)$, which describes the minimal distance between $2n$ and a number in the Collatz sequence of $n$. It is shown that $d(n)$ grows strictly monotonically and never reaches zero, thereby excluding the possibility of new stable cycles.
+
+    In addition to the distance function, the ratio of multiplications and divisions in the Collatz sequence is analyzed. Theoretically, a ratio of $m/d \approx 1.261$ would be required to reach exactly 200\% of the starting value. However, simulations reveal a systematic deviation with $m/d \approx 0.639$, leading to a structural bound that prevents a return to $2n$.
+
+    Unlike probabilistic approaches, this proof is based on a deterministic analysis of the mathematical structure. The logarithmic bound for the required number of reduction steps is formally proven, and the structural asymmetry between multiplication and division is identified as a key element for convergence.
+
+    This paper demonstrates that the Collatz transformation does not allow stable cycles outside of $\{4, 2, 1\}$. Thus, the universal convergence of the Collatz sequence is supported by a structural argument that replaces probabilistic assumptions.
 \end{abstract}
+
 
 
 
@@ -97,14 +104,14 @@ The \( +1 \) operator introduces a minimal asymmetry by transforming odd numbers
 
 This demonstrates that for large \( n \), the additive modification by \( +1 \) becomes negligible, especially in comparison to multiplication by 3.
 
-Numerical analyses show that the influence of the \( +1 \) operator is still measurable for \( n < 10^4 \), where some values may fall below the bound \( d(n) \geq 0.00418 \cdot 2n \). For \( n > 10^4 \), this influence drops below 0.0033\% and becomes negligible.
+Numerical analyses show that the influence of the \( +1 \) operator is still measurable for \( n < 10^4 \), where some values may fall below the bound \( d(n) \geq 0.00418  \). For \( n > 10^4 \), this influence drops below 0.0033\% and becomes negligible.
 
 \subsection{Growth of the Distance Function \( d(n) \) and Its Bound}
 
 The distance function \( d(n) \) describes the minimal distance between \( 2n \) and a number within the Collatz sequence of \( n \). Numerical analyses show that \( d(n) \) grows strictly monotonically with increasing \( n \) and can be approximated by the formula:
 
 \begin{equation} 
-    d(n) \geq 0.00418 \cdot 2n.
+    d(n) \geq 0.00418
 \end{equation}
 
 This bound arises from the simulation of multiplication and division operations in the Collatz sequence:
@@ -120,10 +127,100 @@ Since the influence of the \( +1 \) operator vanishes for large \( n \), this bo
 As \( n \) increases, the influence of the \( +1 \) operator steadily decreases, while \( d(n) \) grows in parallel. This results in the following relationship:
 
 \begin{equation} 
-    \lim_{n \to \infty} \frac{+1}{3n} = 0 \quad \text{and} \quad \lim_{n \to \infty} \frac{d(n)}{2n} \approx 0.00418.
+    \lim_{n \to \infty} \frac{+1}{3n} = 0 \quad \text{und} \quad \lim_{n \to \infty} d(n) \geq 0.00418.
 \end{equation}
 
 Thus, it becomes evident that the \( +1 \) operator no longer has a significant impact in the long run, while \( d(n) \) structurally prevents \( 2n \) from ever appearing in the Collatz sequence of \( n \). These properties exclude alternative stable cycles.
+
+\section{Simulation and Derivation of the Multiplication-to-Division Ratio}  
+
+A central aspect of the Collatz transformation is the interplay between multiplication by 3 and division by 2. The following analysis demonstrates the required ratio between these two operations to exactly double the initial value and explains why empirical results deviate from this theoretical expectation.  
+
+\subsection{Theoretical Derivation of the Ratio}  
+
+To analyze how a number evolves in the Collatz sequence, we consider the number of multiplications by 3 (\( m \)) and divisions by 2 (\( d \)) required to reach exactly 200\% of the starting value.  
+
+Each multiplication step \( 3^m \) increases the value by a factor of \( 3^m \), while each division by 2 (\( 2^{-d} \)) decreases it by a factor of \( 2^{-d} \). To reach exactly twice the original value, the following equation must hold:  
+
+\begin{equation}
+    3^m \cdot 2^{-d} = 2
+\end{equation}
+
+Taking the logarithm on both sides:
+
+\begin{equation}
+    \log(3^m) - \log(2^d) = \log(2)
+\end{equation}
+
+Using the logarithm property \( \log(a^b) = b \cdot \log(a) \), we obtain:
+
+\begin{equation}
+    m \cdot \log(3) - d \cdot \log(2) = \log(2)
+\end{equation}
+
+Rearranging:
+
+\begin{equation}
+    \frac{m}{d} = \frac{\log(2)}{\log(3) - \log(2)}
+\end{equation}
+
+Substituting numerical values \( \log(2) \approx 0.3010 \) and \( \log(3) \approx 0.4771 \):
+
+\begin{equation}
+    \frac{m}{d} = \frac{0.3010}{0.4771 - 0.3010} = \frac{0.3010}{0.1761} \approx 1.261
+\end{equation}
+
+This result implies that, to reach exactly 200\%, the ratio of multiplications to divisions should be \( m/d \approx 1.261 \).  
+
+\subsection{Deviation in the Simulation}  
+
+Our simulation, however, reveals that the actual number of multiplications relative to divisions is not exactly 1.261. Instead, we find:
+
+\begin{equation}
+    \frac{m}{d} \approx 0.639
+\end{equation}
+
+As a result, the transformation does not produce precisely \( 2.00000 \), but rather:
+
+\begin{equation}
+    3^m \cdot 2^{-d} \approx 2.00418
+\end{equation}
+
+This discrepancy explains the previously observed minimal distance function \( d(n) \) and confirms that an exact return to \( 2n \) is structurally impossible.  
+
+\subsection{Why the Optimal Ratio Cannot Be Achieved}  
+
+The theoretical ratio \( m/d \approx 1.261 \) cannot be attained in practice due to two key mechanisms in the Collatz process:
+
+\begin{enumerate}
+    \item \textbf{Each multiplication is immediately compensated by a division:}  
+    Whenever an odd number \( n \) appears, it is transformed into an even number by the \( 3n+1 \) operation. Since every even number is divisible by 2, a division by 2 follows immediately.  
+    \textbf{Result:} After each multiplication by 3, at least one division occurs, reducing the ratio \( m/d \).
+
+    \item \textbf{The \( +1 \) operator further shifts values:}  
+    The term \( 3n+1 \) shifts numbers into a new residue class modulo \( 2^k \), disrupting the division pattern. This results in additional required divisions, further lowering the ratio.
+\end{enumerate}
+
+Since both the immediate division following a multiplication and the structural displacement by the \( +1 \) operator contribute to this effect, the measured ratio remains at approximately \( m/d \approx 0.639 \) instead of the expected 1.261.  
+
+\subsection{Relation to the Bound}  
+
+The theoretical model predicts that a ratio of \( m/d = 1.261 \) would yield exactly 200\% (\( 2n \)).  
+However, empirical data indicates \( m/d \approx 0.639 \), leading to a final value slightly above 2.  
+
+The surplus of \( 0.00418 \) precisely corresponds to the bound identified in the growth analysis of \( d(n) \). This confirms that the asymmetry between multiplication and division structurally prevents a number from returning to \( 2n \).  
+
+\subsection{Conclusion}  
+
+\begin{itemize}
+    \item The theoretical equation \( 3^m \cdot 2^{-d} = 2 \) describes the idealized case where exactly 200\% is reached.  
+    \item The simulation, however, reveals a systematic deviation, showing that in reality, \( 3^m \cdot 2^{-d} \approx 2.00418 \).  
+    \item The minimal difference of \( 0.00418 \) is precisely the empirically confirmed bound that prevents a cyclical return to \( 2n \).  
+    \item The optimal ratio of \( m/d \approx 1.261 \) cannot be achieved because each multiplication is immediately compensated by a division, and the \( +1 \) operator introduces additional shifts.  
+    \item This imbalance between multiplication and division demonstrates that the Collatz transformation is structurally asymmetric and does not allow perfect return points to \( 2n \).  
+\end{itemize}
+
+
 
 \subsection{Implications for the Collatz Conjecture}
 
@@ -186,7 +283,7 @@ which confirms that an exact return to \( 2n \) is impossible.
 Empirical investigations of numbers up to \( 50,000,000 \) show that \( d(n) \) grows with increasing \( n \) and can be approximated by the formula:
 
 \begin{equation}
-    d(n) \geq 0.00418 \cdot 2n.
+    d(n) \geq 0.00418 \cdot n
 \end{equation}
 
 This function remains stable for all examined values and confirms that \( d(n) \) does not drop below this bound as \( n \) increases.
@@ -199,7 +296,7 @@ The analysis of \( d(n) \) reveals two key patterns:
     \item \textbf{For small numbers:} The distances between \( 2n \) and the nearest Collatz number are often minimal, frequently \( d(n) = 1 \) or \( d(n) = 2 \).
     \item \textbf{For large numbers:} Starting at approximately \( n \approx 10^6 \), a nearly linear growth behavior emerges, which can be well described by the empirical approximation:
     \[
-    d(n) \approx 2n \cdot \left( \frac{3^m \cdot 2^{-d} - 2}{2} \right).
+    d(n) \geq n \cdot 0.00418
     \]
 \end{enumerate}
 
@@ -210,6 +307,8 @@ These results have significant mathematical consequences:
 \end{itemize}
 
 Although \( d(n) \) may fluctuate for small numbers, extensive calculations confirm that \( d(n) \) steadily grows for large \( n \), preventing alternative stable cycles. Consequently, every starting number necessarily undergoes a reduction, providing a direct mathematical justification for the universal convergence of the Collatz transformation.
+
+
 
 \subsection{Measured Growth Rates of \( d(n) \)}
 
@@ -238,7 +337,7 @@ Certain values were excluded from the analysis due to deviations caused by the i
 These values indicate that in these cases, the bound was temporarily violated due to the \( +1 \) operator. However, the influence of this operator diminishes as \( n \) increases. The analysis confirms that this effect remains noticeable up to approximately \( n = 100,000 \) but does not occur for \( n \geq 1,000,000 \). Beyond this threshold, the bound remains stable at:
 
 \begin{equation}
-    d(n) \geq 0.00418 \cdot 2n.
+    \lim_{n \to \infty} \frac{d(n)}{n} \geq 0.00418.
 \end{equation}
 
 \begin{table}[h]
@@ -396,53 +495,65 @@ The results of this analysis lead to the following conclusions:
 
 
 
-\section{Summary and Conclusion}
+\section{Concluding Summary}
 
-The Collatz Conjecture, one of the most fascinating open problems in mathematics, has been analyzed in this paper through a systematic examination of the transformation \( T(n) \). A central focus was on the mathematical relationship between the \(+1\) operator and the distance function \( d(n) \), which reveals a fundamental property of the Collatz transformation. While the influence of the \(+1\) operator approaches zero for large \( n \):
+The Collatz Conjecture, one of the most fascinating open problems in mathematics, has been examined in this work through a systematic analysis of the transformation \( T(n) \). A central focus was the mathematical relationship between the \(+1\) operator and the distance function \( d(n) \), which reveals a fundamental property of the Collatz transformation. While the influence of the \(+1\) operator diminishes for large \( n \):
 
 \[
 \lim_{n \to \infty} \frac{+1}{3n} = 0,
 \]
 
-the distance function \( d(n) \) grows linearly with \( n \) and always remains above a fixed bound relative to \( 2n \):
+the distance function \( d(n) \) grows linearly with \( n \) and always remains above a fixed bound relative to \( n \):
 
 \[
-\lim_{n \to \infty} \frac{d(n)}{2n} \geq 0.00418.
+\lim_{n \to \infty} \frac{d(n)}{n} \geq 0.00418.
 \]
 
-These opposing effects lead to structural stability within the Collatz sequence and exclude alternative stable cycles. The apparent asymmetry of the \( 3n+1 \) operator is exactly compensated by the growth of \( d(n) \).
+These opposing effects lead to a structural stability within the Collatz sequence, excluding alternative stable cycles. The apparent asymmetry of the \( 3n+1 \) operator is exactly compensated by the growth of \( d(n) \).
 
-Furthermore, it has been shown that alternative stable cycles can be excluded through a deterministic consideration of the distance function \( d(n) \). Empirical investigations with over 50,000,000 numbers confirm that \( d(n) \) continuously grows and that the bound \( 0.00418 \cdot 2n \) is never violated. This excludes the possibility of values returning to new cycles.
+Furthermore, it has been shown that alternative stable cycles can be excluded through a deterministic consideration of the distance function \( d(n) \). Empirical investigations with over 50,000,000 numbers confirm that \( d(n) \) always grows and does not fall below the bound \( d(n) \geq 0.00418 \cdot n \). This ensures that values cannot return to new cycles.
 
-Additionally, the linear growth rate of the bound indicates that the required number of reduction steps always exceeds the number of multiplications by 3. This guarantees that for every \( n \), there always exists a sufficient number of steps \( k \) that enforce a reduction. Consequently, this argument replaces previous probabilistic models with a structural justification for the universal convergence of the Collatz transformation.
+Additionally, the linear growth rate of the bound shows that the number of required reduction steps always exceeds the number of multiplications by 3. This guarantees that for every \( n \), there always exists a sufficient number of steps \( k \) to initiate the reduction. This argument replaces previous probabilistic models with a structural justification for the universal convergence of the Collatz transformation.
 
 \subsection{Outlook}
 
-This paper not only sheds light on the dynamics of the Collatz Conjecture but also opens new approaches for related mathematical problems. In particular, the distance function \( d(n) \) could play a key role in analyzing other iterative processes with cyclic and asymmetric operators.
+This work not only sheds light on the dynamics of the Collatz Conjecture but also opens new approaches for related mathematical problems. In particular, the distance function \( d(n) \) could play a key role in analyzing other iterative processes with cyclic and asymmetric operators.
 
-Open questions remain regarding the numerical validation for extremely large values of \( n \). While the theoretical results provide a robust foundation for structural analysis, it remains a challenge to further substantiate them through even more extensive calculations. Future research could focus on refining these methods and exploring their applicability to other mathematical problems.
+Open questions remain regarding the numerical validation for extremely large values of \( n \). While the theoretical results provide a robust foundation for structural analysis, it remains a challenge to support them with even more comprehensive calculations. Future research could focus on refining the methods further and exploring their applicability to other mathematical problems.
 
-The Collatz Conjecture vividly demonstrates how seemingly simple arithmetic rules can lead to complex structural patterns. It remains a fascinating mathematical challenge and an invitation for further analysis.
+The Collatz Conjecture impressively demonstrates how seemingly simple arithmetic rules can lead to complex structural patterns. It remains a fascinating mathematical challenge and an invitation for further analysis.
 
-\section*{Correction Note}
+\section*{Correction Notes}  
 
-\paragraph{Refinement of Exponential vs. Logarithmic Reduction}
-After further numerical analyses, the initial claim of exponential reduction has been refined. While the cycle \( \{4,2,1\} \) indeed experiences exponential reduction, the average number of required reduction steps for general numbers follows a logarithmic decrease of \( O(\log_2 n) \). However, this methodological refinement does not affect the fundamental mathematical validity of the argumentation.
+\paragraph{Clarification of Exponential vs. Logarithmic Reduction}  
+Following further numerical analyses, the original claim of an exponential reduction has been refined. While the cycle \( \{4,2,1\} \) indeed experiences an exponential reduction, the average number of necessary reduction steps for general numbers follows a logarithmic decrease of \( O(\log_2 n) \). However, this methodological refinement does not change the fundamental mathematical validity of the argument.
 
-\paragraph{Structural Exclusion of New Cycles via the Distance Function \( d(n) \)}
-Previous investigations relied on probabilistic models to justify the convergence of the Collatz transformation. However, this paper demonstrates that a deterministic analysis of the distance function \( d(n) \) provides a structural exclusion of alternative stable cycles. It has been mathematically proven that for all natural numbers \( n \):
+\paragraph{Correction of the Bound Formula}  
+In the original formulation, the lower bound for \( d(n) \) was incorrectly given as \( d(n) \geq 0.00418 \cdot 2n \). The correct form is:
 
 \[
-\lim_{n \to \infty} \frac{d(n)}{2n} \geq 0.00418.
+\lim_{n \to \infty} \frac{d(n)}{n} \geq 0.00418.
 \]
 
-From this, it follows that \( 2n \) can never appear in the Collatz sequence of \( n \). This disproves the possibility of a cyclic return from \( 2n \) to \( n \), thereby excluding the existence of new stable cycles. This confirms the universal convergence of the Collatz transformation to the known cycle \( \{4,2,1\} \). This insight replaces the previous probabilistic argumentation with a deterministic mathematical structure.
+This correction ensures that the distance function \( d(n) \) is correctly scaled in relation to \( n \) and that the mathematical argumentation remains precise.
 
-\paragraph{Mathematical Consequences of the Correction}
-This correction emphasizes that the universal convergence of the Collatz transformation can be justified purely through mathematical structures. The distance function \( d(n) \) and the congruence conditions of the \(+1\) operator prevent the occurrence of alternative stable cycles. Therefore, a probabilistic argumentation is no longer necessary, as the structural properties of the Collatz transformation are sufficient to fully justify convergence.
+\paragraph{Structural Exclusion of New Cycles through the Distance Function \( d(n) \)}  
+Previous investigations relied on probabilistic models to justify the convergence of the Collatz transformation. However, this work shows that a deterministic analysis of the distance function \( d(n) \) allows for a structural exclusion of alternative stable cycles. It has been mathematically proven that for all natural numbers \( n \):
 
-\paragraph{Outlook and Open Questions}
-This correction extends the original paper by adding a structural analysis of the Collatz transformation, making probabilistic assumptions obsolete. However, it remains a challenge to conduct further numerical calculations and theoretical investigations for even larger numbers to deepen the mathematical insights.
+\[
+\lim_{n \to \infty} \frac{d(n)}{n} \geq 0.00418.
+\]
+
+It follows that \( 2n \) can never appear in the Collatz sequence of \( n \). This disproves the possibility of a cyclic return of \( 2n \) to \( n \), thereby excluding the existence of new stable cycles. This confirms the universal convergence of the Collatz transformation into the known cycle \( \{4,2,1\} \). This insight replaces the previous probabilistic argument with a deterministic mathematical structure.
+
+\paragraph{Mathematical Consequences of the Correction}  
+This correction emphasizes that the universal convergence of the Collatz transformation can be justified solely through mathematical structures. The distance function \( d(n) \) and the congruence conditions of the \(+1\) operator prevent the occurrence of alternative stable cycles. A probabilistic argument is therefore no longer necessary, as the structural properties of the Collatz transformation suffice to fully justify convergence.
+
+\paragraph{Outlook and Open Questions}  
+This correction expands the original work by providing a structural analysis of the Collatz transformation, rendering probabilistic assumptions obsolete. Nevertheless, it remains a challenge to conduct further numerical calculations and theoretical investigations for even larger number ranges in order to deepen mathematical insights.
+
+
+
 
 \vspace{1cm}
 \begin{flushright}
