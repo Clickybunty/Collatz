@@ -39,10 +39,10 @@ This paper presents a new structural analysis of the **Collatz transformation**,
 Download the full paper as a PDF:
 
 📄 **English Version**  
-➡️ [Download (Collatz_Bound_EN.pdf)](https://github.com/Clickybunty/Collatz/blob/main/Collatz_Bound_EN.pdf)
+➡️ [Download (Collatz_Bound_EN.pdf)](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeEn.pdf)
 
 📄 **German Version**  
-➡️ [Download (Collatz_Bound_DE.pdf)](https://github.com/Clickybunty/Collatz/blob/main/Collatz_Bound_DE.pdf)
+➡️ [Download (Collatz_Bound_DE.pdf)](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeDe.pdf)
 
 📊 **Filtered Collatz Results Data**  
 ➡️ [Download (filtered_collatz_results.csv)](https://github.com/Clickybunty/Collatz/blob/main/filtered_collatz_results.csv)
@@ -54,10 +54,10 @@ Download the full paper as a PDF:
 If you wish to edit or analyze this work, you can access the **LaTeX source code**.
 
 📜 **English LaTeX Source**:  
-➡️ [Collatz_Bound_EN.TeX](https://github.com/Clickybunty/Collatz/blob/main/Collatz_Bound_EN.TeX)
+➡️ [Collatz_Bound_EN.TeX](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeEn.TeX)
 
 📜 **German LaTeX Source**:  
-➡️ [Collatz_Bound_DE.TeX](https://github.com/Clickybunty/Collatz/blob/main/Collatz_Bound_DE.TeX)
+➡️ [Collatz_Bound_DE.TeX](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeDe.TeX)
 
 **Required Packages:**
 
@@ -126,10 +126,10 @@ Diese Arbeit präsentiert eine neue strukturelle Analyse der **Collatz-Transform
 Die vollständige Arbeit kann hier als PDF heruntergeladen werden:
 
 📄 **Englische Version**  
-➡️ [Download (Collatz_Bound_EN.pdf)](https://github.com/Clickybunty/Collatz/blob/main/Collatz_Bound_EN.pdf)
+➡️ [Download (Collatz_Bound_EN.pdf)](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeEn.pdf)
 
 📄 **Deutsche Version**  
-➡️ [Download (Collatz_Bound_DE.pdf)](https://github.com/Clickybunty/Collatz/blob/main/Collatz_Bound_DE.pdf)
+➡️ [Download (Collatz_Bound_DE.pdf)](https://github.com/Clickybunty/Collatz/blob/main/27JanuarCollatzSchrankeDe.pdf)
 
 ---
 
