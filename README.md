@@ -4,6 +4,16 @@ _A mathematical paper on the Collatz Conjecture by Stevan Menicanin_
 
 [🔗 Deutsche Version unten](#-die-collatz-schranke--untersuchung-der-zentralen-dynamik-und-konvergenz)
 
+
+### **Current Status of the Investigation (February 13, 2025)**  
+
+The previously established **growth boundary of \( d(n) \) cannot currently be considered confirmed**. A 145-digit number has fallen below the expected threshold, necessitating a reassessment of the methodology.  
+
+To verify this anomaly, nearby numbers within a range of ±500,000 around this value were tested. Additional numbers exhibiting the same growth rate were identified, raising questions about whether the discrepancy is due to a **measurement error, a methodological flaw, or a fundamental invalidity of the boundary**.  
+
+Special attention is being given to potential **rounding errors** and the **precision of calculations**, especially when dealing with extremely large numbers. Since numerical inaccuracies or methodological inconsistencies cannot be ruled out as influencing factors, the analysis is ongoing. The goal is to **identify the root cause and establish a reliable conclusion regarding the stability of the boundary**.
+
+
 ## ✭ Version Note (Version 3.1)
 
 **Current Version:** 3.1 – *Refined Asymmetry Analysis, Structural Constraint of \( d(n) \), and Multiplication-Division Ratio*  
@@ -90,6 +100,28 @@ This means you are free to share and build upon this work, as long as you credit
 _Ein mathematisches Paper zur Collatz-Vermutung von Stevan Menicanin_
 
 [English Version below](#-the-collatz-bound--analysis-of-central-dynamics-and-convergence)
+
+
+
+### Aktueller Stand der Untersuchung (13. Februar 2025)
+Die bisherigen Ergebnisse zur 
+# Wachstumsgrenze von d(n) sind derzeit nicht als bestätigt anzusehen. 
+Eine 145-stellige Zahl hat die **Schranke unterschritten**, 
+was eine erneute Prüfung der Methodik erforderlich macht.
+
+Zur Verifikation wurden naheliegende Zahlen im Bereich von ±500.000 um diesen Wert herum getestet. 
+Dabei wurden weitere Zahlen mit **identischer Wachstumsrate** gefunden. 
+Dies wirft Fragen auf, 
+ob ein **Messfehler, ein methodischer Fehler oder eine grundsätzliche Ungültigkeit der Schranke** vorliegt.
+
+Besondere Aufmerksamkeit gilt möglichen **Rundungsfehlern** sowie der Genauigkeit der Berechnungen, 
+insbesondere im Umgang mit extrem großen Zahlen. 
+Da nicht ausgeschlossen werden kann, 
+dass numerische Ungenauigkeiten oder eine **fehlerhafte Methodik** das Ergebnis beeinflusst haben, 
+wird die Analyse fortgesetzt. 
+Ziel ist es, 
+die Ursachen zu klären und 
+eine belastbare Aussage zur Stabilität der Schranke zu treffen.
 
 ## ✭ Versionshinweis (Version 3.1)
 
